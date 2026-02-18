@@ -1,3 +1,5 @@
+## ERD Diagram
+
 ```mermaid
 erDiagram
     USER ||--|| MANUFACTURER : has_profile
