@@ -1,3 +1,48 @@
+```mermaid
+erDiagram
+    USER ||--|| MANUFACTURER : has_profile
+    MANUFACTURER ||--o{ MEDICINE : produces
+    MEDICINE ||--o{ FORMULA : contains
+    MEDICINE ||--o{ LABREPORT : has
+
+    USER {
+        int id PK
+        string username
+        string email
+        string password
+    }
+
+    MANUFACTURER {
+        int id PK
+        string name
+        string description
+        int user_id FK
+    }
+
+    MEDICINE {
+        int id PK
+        string name
+        string description
+        decimal price
+        float rating
+        int manufacturer_id FK
+        datetime created_at
+    }
+
+    FORMULA {
+        int id PK
+        string name
+        int medicine_id FK
+    }
+
+    LABREPORT {
+        int id PK
+        string pdf_file
+        datetime uploaded_at
+        int medicine_id FK
+    }
+```
+
 ## ERD Explanation
 
 The system consists of five main entities:
