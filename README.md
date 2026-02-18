@@ -26,18 +26,19 @@
 - [Target Users](#target-users)
 - [Scalability & Maintenance](#scalability--maintenance)
 - [Deployment](#deployment)
+- [ERD Diagram](#erd-diagram)
+- [ERD Explanation](#erd-explanation)
+- [User Roles](#user-roles)
+- [Core Features](#core-features)
 - [Planned Updates](#planned-updates)
 - [Contact](#contact)
+- [License](#license)
 
 ---
 
 ## Purpose
 
-<div align="justify">
-
-This project is designed to solve challenges in navigating the pharmaceutical market. Users face difficulties in retrieving accurate medicine information, comparing similar products, and verifying quality reports. The **Comparative Medicine Database** provides a **centralised, user-friendly platform** where consumers, healthcare professionals, and manufacturers can search, compare, and manage medicine data securely.
-
-</div>
+This project solves challenges in navigating the pharmaceutical market. Users face difficulties retrieving accurate medicine information, comparing similar products, and verifying quality reports. The **Comparative Medicine Database** provides a **centralised, user-friendly platform** where consumers, healthcare professionals, and manufacturers can search, compare, and manage medicine data securely.
 
 ---
 
@@ -85,15 +86,88 @@ This project is designed to solve challenges in navigating the pharmaceutical ma
 
 ## Deployment
 
-To run locally:
-
 ```bash
 git clone https://github.com/muazainal/mz-medcompare.git
-cd comparative-medicine-database
-# set up Python virtual environment
+cd mz-medcompare
 python3 -m venv .venv
 source .venv/bin/activate   # Linux / Mac
 .venv\Scripts\activate      # Windows
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
+
+
+## ERD Explanation
+
+The system consists of five main entities:
+
+- **User** – Handles authentication
+- **Manufacturer** – Linked to a user profile
+- **Medicine** – Core product entity
+- **Formula** – Chemical composition linked to medicine
+- **LabReport** – Uploaded verification documents
+
+### Relationships
+
+- One **User** → One **Manufacturer**
+- One **Manufacturer** → Many **Medicines**
+- One **Medicine** → Many **Formulas**
+- One **Medicine** → Many **LabReports**
+
+The schema follows normalization principles to avoid redundancy and improve scalability.
+
+---
+
+## User Roles
+
+### Standard User
+
+- Browse medicines
+- Search and filter
+- View details
+- Make purchases
+
+### Manufacturer
+
+- Submit new medicines
+- Upload lab reports
+- Manage product listings
+
+---
+
+## Core Features
+
+- CRUD operations for medicines
+- Search by name and formula
+- Filtering and sorting by price/rating
+- File upload (PDF lab reports)
+- Stripe checkout integration
+- Role-based access control
+- Responsive UI
+
+---
+
+## Planned Updates
+
+- AI-based medicine recommendation
+- Notifications for new medicines or price drops
+- Analytics dashboard for manufacturers
+- Multi-language support
+- Improved lab report verification system
+
+---
+
+## Contact
+
+- **Developer:** Muaz Zainal
+- **Email:** muazainal@live.com
+- **GitHub:** [mz-medcompare](https://github.com/muazainal/mz-medcompare)
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+
