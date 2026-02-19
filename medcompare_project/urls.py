@@ -20,5 +20,6 @@ from medicines import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'), #first page
+    path('', views.home, name='home'), #points to home()/ Home page
+    path('medicines/', views.medicines_list, name='medicines_list'),  # Medicines page
 ]
