@@ -6,7 +6,7 @@ from django.db import models
 # Manufacturer model
 # -----------------------------
 class Manufacturer(models.Model):
-    name = models.CharField(max_length=255)  # Name of the manufacturer
+    name = models.CharField(max_length=255, unique=True)  # Name of the manufacturer
     address = models.TextField(blank=True)   # Optional address
 
     def __str__(self):
@@ -26,7 +26,7 @@ class Formula(models.Model):
 # Medicine model
 # -----------------------------
 class Medicine(models.Model):
-    name = models.CharField(max_length=255)          # Name of the medicine
+    name = models.CharField(max_length=255, unique=True)          # Name of the medicine
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE
     )                                               # Link to manufacturer
