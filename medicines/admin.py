@@ -5,4 +5,10 @@ from .models import Manufacturer, Formula, Medicine, LabReport
 admin.site.register(Manufacturer)
 admin.site.register(Formula)
 admin.site.register(Medicine)
-admin.site.register(LabReport)
+
+# Register LabReport so we can manage it in Django admin
+@admin.register(LabReport)
+class LabReportAdmin(admin.ModelAdmin):
+    list_display = ('medicine', 'report_file', 'uploaded_at')
+    list_filter = ('uploaded_at',)
+    search_fields = ('medicine__name',)
