@@ -50,3 +50,18 @@ class LabReport(models.Model):
 
     def __str__(self):
         return f"Lab Report for {self.medicine.name}"
+
+# LabReport model to store uploaded lab files for each medicine
+class LabReport(models.Model):
+    Medicine = models.ForeignKey(
+        'Medicine',             # Link each report to a Medicine
+        on_delete=models.CASCADE,
+        related_name='lab_reports' 
+    )
+    report_file = models.FileField(
+        upload_to='lab_reports/'  # Files will be saved in MEDIA_ROOT/lab_reports/ 
+    )
+    uploaded_at = models.DateTimeField(auto_now_add=True)  # Timestamp of upload
+
+    def __str__(self):
+        return f"{self.medicine.name} - Report {self.id}"
