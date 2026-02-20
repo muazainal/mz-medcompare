@@ -53,7 +53,7 @@ class LabReport(models.Model):
 
 # LabReport model to store uploaded lab files for each medicine
 class LabReport(models.Model):
-    Medicine = models.ForeignKey(
+    medicine = models.ForeignKey(
         'Medicine',             # Link each report to a Medicine
         on_delete=models.CASCADE,
         related_name='lab_reports' 
