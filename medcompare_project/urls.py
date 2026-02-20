@@ -18,8 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from medicines import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'), #points to home()/ Home page
     path('medicines/', views.medicines_list, name='medicines_list'),  # Medicines page
 ]
+
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
