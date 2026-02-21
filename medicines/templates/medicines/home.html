@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>Medicine List</title>
 </head>
 <body>
-    <h1>Welcome to MedCompare!</h1>
-    <p>This is your first Django page.</p>
+    <h1>Medicine List</h1>
+    <ul>
+      {% for medicine in medicines %}
+        <li>
+          <a href="{% url 'medicine_detail' medicine.pk %}">
+            {{ medicine.name }} — {{ medicine.formula }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
 </body>
 </html>
