@@ -23,8 +23,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'), #points to home()/ Home page
-    path('medicines/', views.medicines_list, name='medicines_list'),  # Medicines page
+    path('', views.home, name='home'), #points to home()/ Home page listing medicines
+    path('medicine/<int:pk>/', views.medicine_detail, name='medicine_detail'),  # Detail page
+    # path('medicines/', views.medicines_list, name='medicines_list'),  # Medicines page
+
 ]
 
 # Serve media files during development
