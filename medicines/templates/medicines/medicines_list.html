@@ -1,12 +1,45 @@
 <!-- Medicines page -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Medicines Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicines</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <h1>All Medicines</h1>
-    <p>This is the medicines page where you will list all medicines.</p>
+<body class="p-4">
+
+    <div class="container">
+        <h1 class="mb-4">All Medicines</h1>
+
+        <!-- Medicines Grid -->
+        <div class="row">
+            {% for med in medicines %}
+            <div class="col-md-4 mb-3">
+                <div class="card p-3 medicine-card h-100">
+                    <h5 class="card-title">{{ med.name }}</h5>
+                    <p class="card-text"><strong>Formula:</strong> {{ med.formula.composition }}</p>
+                    <p class="card-text"><strong>Manufacturer:</strong> {{ med.manufacturer.name }}</p>
+                    <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-sm btn-secondary">Details</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No medicines found.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+
 </body>
 </html>
