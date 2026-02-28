@@ -4,42 +4,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicines</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
+    <!-- Bootstrap CSS from CDN -->
+    <!-- Provides grid system, cards, buttons, spacing utilities -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
+    <!-- Your custom CSS file -->
+    <!-- Django converts this into: /static/css/style.css -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="p-4">
+<body>
 
-    <div class="container">
-        <h1 class="mb-4">All Medicines</h1>
+<!-- Bootstrap container centers content and adds padding -->
+<div class="container py-5">
 
-        <!-- Medicines Grid -->
-        <div class="row">
-            {% for med in medicines %}
-            <div class="col-md-4 mb-3">
-                <div class="card p-3 medicine-card h-100">
-                    <h5 class="card-title">{{ med.name }}</h5>
-                    <p class="card-text"><strong>Formula:</strong> {{ med.formula.composition }}</p>
-                    <p class="card-text"><strong>Manufacturer:</strong> {{ med.manufacturer.name }}</p>
-                    <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-sm btn-secondary">Details</a>
+    <h1 class="text-center mb-4">All Medicines</h1>
+
+    <!-- Bootstrap row for grid layout -->
+    <div class="row">
+
+        <!-- Loop through all Medicine objects sent from views.py -->
+        {% for med in medicines %}
+
+        <!-- col-md-4 means:
+             On medium screens and above → 3 cards per row -->
+        <div class="col-md-4 mb-4">
+
+            <!-- Bootstrap card component -->
+            <div class="card shadow-sm h-100 p-3">
+
+                <div class="card-body">
+
+                    <!-- Medicine name -->
+                    <h5 class="card-title">
+                        {{ med.name }}
+                    </h5>
+
+                    <!-- Relationship: Medicine → Formula -->
+                    <!-- med.formula gets related Formula object -->
+                    <!-- .composition gets field from Formula -->
+                    <p class="card-text">
+                        <strong>Formula:</strong>
+                        {{ med.formula.composition }}
+                    </p>
+
+                    <!-- Relationship: Medicine → Manufacturer -->
+                    <!-- med.manufacturer gets related Manufacturer object -->
+                    <!-- .name gets manufacturer name -->
+                    <p class="card-text">
+                        <strong>Manufacturer:</strong>
+                        {{ med.manufacturer.name }}
+                    </p>
+
+                    <!-- Link to detail page -->
+                    <!-- pk is the primary key of Medicine -->
+                    <a href="{% url 'medicine_detail' med.pk %}"
+                       class="btn btn-primary btn-sm">
+                        View Details
+                    </a>
+
                 </div>
             </div>
-            {% empty %}
-            <p class="text-center">No medicines found.</p>
-            {% endfor %}
+
         </div>
+
+        <!-- If there are zero medicines -->
+        {% empty %}
+            <p>No medicines found.</p>
+
+        {% endfor %}
     </div>
+</div>
 
-    <!-- Bootstrap JS Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+<!-- Bootstrap JS bundle -->
+<!-- Enables dropdowns, modals, etc. -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom JS -->
-    <script src="{% static 'js/main.js' %}"></script>
+<!-- Your custom JS -->
+<script src="{% static 'js/script.js' %}"></script>
 
 </body>
 </html>
