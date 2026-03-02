@@ -1,3 +1,67 @@
-<h1>{{ medicine.name }}</h1>
-<p>Formula: {{ medicine.formula }}</p>
-<p>Description: {{ medicine.description }}</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Page title dynamically shows medicine name -->
+    <title>{{ medicine.name }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS for layout and styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="container py-5">
+
+    <!-- Navigation button to return to medicines list -->
+    <a href="{% url 'home' %}" class="btn btn-outline-secondary mb-4">
+        ← Back to Medicines
+    </a>
+
+    <!-- Main card displaying medicine information -->
+    <div class="card shadow-lg p-4">
+
+        <!-- Medicine Name -->
+        <h2 class="mb-3">{{ medicine.name }}</h2>
+
+        <hr>
+
+        <!-- Manufacturer Information -->
+        <p>
+            <strong>Manufacturer:</strong><br>
+            {{ medicine.manufacturer.name }}
+        </p>
+
+        <!-- Formula Composition -->
+        <p>
+            <strong>Formula:</strong><br>
+            {{ medicine.formula.composition }}
+        </p>
+
+        <!-- Dosage Information -->
+        <p>
+            <strong>Dosage:</strong><br>
+            {{ medicine.formula.dosage }}
+        </p>
+
+        <!-- Description Section -->
+        <p>
+            <strong>Description:</strong><br>
+            {{ medicine.description }}
+        </p>
+
+    </div>
+
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
