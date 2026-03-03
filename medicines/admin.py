@@ -4,7 +4,12 @@ from .models import Manufacturer, Formula, Medicine, LabReport
 # Register your models here.
 admin.site.register(Manufacturer)
 admin.site.register(Formula)
-admin.site.register(Medicine)
+
+@admin.register(Medicine)
+class MedicineAdmin(admin.ModelAdmin):
+    list_display = ('name', 'manufacturer', 'dosage', 'price', 'rating')
+    list_filter = ('manufacturer', 'rating')
+    search_fields = ('name', 'description', 'dosage')
 
 # Register LabReport so we can manage it in Django admin
 @admin.register(LabReport)
