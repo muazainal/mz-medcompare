@@ -7,9 +7,9 @@ admin.site.register(Formula)
 
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
-    list_display = ('name', 'manufacturer', 'dosage', 'price', 'rating')
+    list_display = ('name', 'manufacturer', 'formula', 'dosage', 'price', 'rating')
     list_filter = ('manufacturer', 'rating')
-    search_fields = ('name', 'description', 'dosage')
+    search_fields = ('name', 'description', 'formula', 'dosage')
 
 # Register LabReport so we can manage it in Django admin
 @admin.register(LabReport)

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
@@ -15,53 +16,55 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
 
-<div class="container py-5">
+    <div class="container py-5">
 
-    <!-- Navigation button to return to medicines list -->
-    <a href="{% url 'home' %}" class="btn btn-outline-secondary mb-4">
-        ← Back to Medicines
-    </a>
+        <!-- Navigation button to return to medicines list -->
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary mb-4">
+            ← Back to Medicines
+        </a>
 
-    <!-- Main card displaying medicine information -->
-    <div class="card shadow-lg p-4">
+        <!-- Main card displaying medicine information -->
+        <div class="card shadow-lg p-4">
 
-        <!-- Medicine Name -->
-        <h2 class="mb-3">{{ medicine.name }}</h2>
+            <!-- Medicine Name -->
+            <h2 class="mb-3">{{ medicine.name }}</h2>
 
-        <hr>
+            <hr>
 
-        <!-- Manufacturer Information -->
-        <p>
-            <strong>Manufacturer:</strong><br>
-            {{ medicine.manufacturer.name }}
-        </p>
+            <!-- Manufacturer Information -->
+            <p>
+                <strong>Manufacturer:</strong><br>
+                {{ medicine.manufacturer.name }}
+            </p>
 
-        <!-- Formula Composition -->
-        <p>
-            <strong>Formula:</strong><br>
-            {{ medicine.formula.composition }}
-        </p>
+            <!-- Formula -->
+            <p>
+                <strong>Formula:</strong><br>
+                {{ medicine.formula }}
+            </p>
 
-        <!-- Dosage Information -->
-        <p>
-            <strong>Dosage:</strong><br>
-            {{ medicine.dosage }}
-        </p>
+            <!-- Dosage Information -->
+            <p>
+                <strong>Dosage:</strong><br>
+                {{ medicine.dosage }}
+            </p>
 
-        <!-- Description Section -->
-        <p>
-            <strong>Description:</strong><br>
-            {{ medicine.description }}
-        </p>
+            <!-- Description Section -->
+            <p>
+                <strong>Description:</strong><br>
+                {{ medicine.description }}
+            </p>
+
+        </div>
 
     </div>
 
-</div>
-
-<!-- Bootstrap JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
