@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # MANUFACTURER MODEL
 class Manufacturer(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
     # Make 'user' nullable for safe migration
     user = models.OneToOneField(
         User,
