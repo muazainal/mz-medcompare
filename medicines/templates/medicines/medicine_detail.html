@@ -1,71 +1,47 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'medicines/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
+{% block title %}{{ medicine.name }} | MedCompare{% endblock %}
 
-    <!-- Page title dynamically shows medicine name -->
-    <title>{{ medicine.name }}</title>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-0" style="border-radius: 15px;">
+            <div class="card-body p-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold text-primary mb-0">{{ medicine.name }}</h2>
+                    <span class="badge bg-primary rounded-pill px-3">Medicine</span>
+                </div>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="text-muted small fw-bold text-uppercase">Formula</label>
+                        <p class="fs-5">{{ medicine.formula }}</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="text-muted small fw-bold text-uppercase">Dosage</label>
+                        <p class="fs-5">{{ medicine.dosage }}</p>
+                    </div>
+                </div>
 
-    <!-- Bootstrap CSS for layout and styling -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+                <div class="mb-4">
+                    <label class="text-muted small fw-bold text-uppercase">Manufacturer</label>
+                    <p class="fs-5">{{ medicine.manufacturer.name }}</p>
+                </div>
 
-    <!-- Custom stylesheet -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+                <div class="mb-4">
+                    <label class="text-muted small fw-bold text-uppercase">Address</label>
+                    <p class="fs-5">{{ medicine.manufacturer.address }}</p>
+                </div>
 
-<body>
+                <hr class="my-4 opacity-10">
 
-    <div class="container py-5">
-
-        <!-- Navigation button to return to medicines list -->
-        <a href="{% url 'home' %}" class="btn btn-outline-secondary mb-4">
-            ← Back to Medicines
-        </a>
-
-        <!-- Main card displaying medicine information -->
-        <div class="card shadow-lg p-4">
-
-            <!-- Medicine Name -->
-            <h2 class="mb-3">{{ medicine.name }}</h2>
-
-            <hr>
-
-            <!-- Manufacturer Information -->
-            <p>
-                <strong>Manufacturer:</strong><br>
-                {{ medicine.manufacturer.name }}<br>
-                <small class="text-muted">{{ medicine.manufacturer.address }}</small>
-            </p>
-
-            <!-- Formula -->
-            <p>
-                <strong>Formula:</strong><br>
-                {{ medicine.formula }}
-            </p>
-
-            <!-- Dosage Information -->
-            <p>
-                <strong>Dosage:</strong><br>
-                {{ medicine.dosage }}
-            </p>
-
-            <!-- Description Section -->
-            <p>
-                <strong>Description:</strong><br>
-                {{ medicine.description }}
-            </p>
-
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                        &larr; Back to List
+                    </a>
+                </div>
+            </div>
         </div>
-
     </div>
-
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
+</div>
+{% endblock %}

@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from .models import Medicine
 
 # HOME PAGE
+@login_required
 def home(request):
     # --- Get query parameters from URL ---
     search_query = request.GET.get('search', '')  # search by medicine, manufacturer, formula
@@ -38,6 +40,7 @@ def home(request):
     )
 
 # DETAIL PAGE
+@login_required
 def medicine_detail(request, pk):
     medicine = get_object_or_404(Medicine, pk=pk)
     return render(
