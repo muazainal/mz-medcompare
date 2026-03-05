@@ -29,6 +29,12 @@
                 </div>
 
                 <div class="mb-4">
+                    <label class="text-muted small fw-bold text-uppercase">Rating</label>
+                    <p class="fs-5"><span class="badge bg-warning text-dark">⭐ {{ medicine.rating|floatformat:1 }} /
+                            5.0</span></p>
+                </div>
+
+                <div class="mb-4">
                     <label class="text-muted small fw-bold text-uppercase">Address</label>
                     <p class="fs-5">{{ medicine.manufacturer.address }}</p>
                 </div>
