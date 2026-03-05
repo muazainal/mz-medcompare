@@ -1,98 +1,38 @@
-<!-- Medicines page -->
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'medicines/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Medicines</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Medicines | MedCompare{% endblock %}
 
-    <!-- Bootstrap CSS from CDN -->
-    <!-- Provides grid system, cards, buttons, spacing utilities -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+{% block content %}
+<h1 class="text-center mb-4">All Medicines</h1>
 
-    <!-- Your custom CSS file -->
-    <!-- Django converts this into: /static/css/style.css -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-
-<body>
-
-    <!-- Bootstrap container centers content and adds padding -->
-    <div class="container py-5">
-
-        <h1 class="text-center mb-4">All Medicines</h1>
-
-        <!-- Bootstrap row for grid layout -->
-        <div class="row">
-
-            <!-- Loop through all Medicine objects sent from views.py -->
-            {% for med in medicines %}
-
-            <!-- col-md-4 means:
-             On medium screens and above → 3 cards per row -->
-            <div class="col-md-4 mb-4">
-
-                <!-- Bootstrap card component -->
-                <div class="card shadow-sm h-100 p-3">
-
-                    <div class="card-body">
-
-                        <!-- Medicine name -->
-                        <h5 class="card-title">
-                            {{ med.name }}
-                        </h5>
-
-                        <!-- Relationship: Medicine → Formula -->
-                        <!-- med.formula gets related Formula object -->
-                        <!-- .composition gets field from Formula -->
-                        <!-- Formula Composition -->
-                        <p>
-                            <strong>Formula:</strong><br>
-                            {{ med.formula }}
-                        </p>
-
-                        <!-- Dosage Information -->
-                        <p class="card-text">
-                            <strong>Dosage:</strong>
-                            {{ med.dosage }}
-                        </p>
-
-                        <!-- Relationship: Medicine → Manufacturer -->
-                        <!-- med.manufacturer gets related Manufacturer object -->
-                        <!-- .name gets manufacturer name -->
-                        <p class="card-text">
-                            <strong>Manufacturer:</strong>
-                            {{ med.manufacturer.name }}
-                        </p>
-
-                        <!-- Link to detail page -->
-                        <!-- pk is the primary key of Medicine -->
-                        <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-primary btn-sm">
-                            View Details
-                        </a>
-
-                    </div>
-                </div>
-
+<div class="row">
+    {% for med in medicines %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 p-3">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">
+                    {{ med.name }}
+                </h5>
+                <p>
+                    <strong>Formula:</strong><br>
+                    <span class="text-muted">{{ med.formula }}</span>
+                </p>
+                <p class="card-text">
+                    <strong>Dosage:</strong>
+                    {{ med.dosage }}
+                </p>
+                <p class="card-text">
+                    <strong>Manufacturer:</strong>
+                    {{ med.manufacturer.name }}
+                </p>
+                <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-primary btn-sm">
+                    View Details
+                </a>
             </div>
-
-            <!-- If there are zero medicines -->
-            {% empty %}
-            <p>No medicines found.</p>
-
-            {% endfor %}
         </div>
     </div>
-
-    <!-- Bootstrap JS bundle -->
-    <!-- Enables dropdowns, modals, etc. -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Your custom JS -->
-    <script src="{% static 'js/script.js' %}"></script>
-
-</body>
-
-</html>
+    {% empty %}
+    <p class="text-center">No medicines found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
