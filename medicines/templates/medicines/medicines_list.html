@@ -25,6 +25,11 @@
                     <strong>Manufacturer:</strong>
                     {{ med.manufacturer.name }}
                 </p>
+                <div class="mb-3">
+                    <span class="badge bg-warning text-dark">
+                        <i class="bi bi-star-fill"></i> ⭐ {{ med.rating|floatformat:1 }} / 5.0
+                    </span>
+                </div>
                 <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-primary btn-sm">
                     View Details
                 </a>
