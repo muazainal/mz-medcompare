@@ -71,8 +71,29 @@ def manufacturer_required(view_func):
         return user.groups.filter(name='Manufacturers').exists() or user.is_superuser
     return user_passes_test(check_manufacturer)(view_func)
 
-# SUBMIT MEDICINE (Day 5 Placeholder)
+# SUBMIT MEDICINE
 @login_required
 @manufacturer_required
 def submit_medicine(request):
-    return render(request, 'medicines/submit_medicine.html')
+    try:
+        manufacturer = request.user.manufacturer_profile
+    except Manufacturer.DoesNotExist:
+        messages.error(request, "Manufacturer profile not found.")
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = MedicineForm(request.POST, request.FILES)
+        if form.is_valid():
+            medicine = form.save(commit=False)
+            medicine.manufacturer = manufacturer
+            medicine.save()
+
+            pdf = request.FILES.get('lab_report')
+            if pdf:
+                LabReport.objects.create(medicine=medicine, pdf_file=pdf)
+
+            messages.success(request, f"'{medicine.name}' has been submitted successfully!")
+            return redirect('medicine_detail', pk=medicine.pk)
+    else:
+        form = MedicineForm()
+    return render(request, 'medicines/submit_medicine.html', {'form': form})
