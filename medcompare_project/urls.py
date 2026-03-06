@@ -24,10 +24,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.home, name='home'), #points to home()/ Home page listing medicines
-     path('medicine/<int:pk>/', views.medicine_detail, name='medicine_detail'),  # Detail page
-    # path('medicines/', views.medicines_list, name='medicines_list'),  # Medicines page
-
+    path('', views.home, name='home'),
+    path('medicine/<int:pk>/', views.medicine_detail, name='medicine_detail'),
+    path('signup/', views.signup, name='signup'),
+    path('submit/', views.submit_medicine, name='submit_medicine'),
 ]
 
 # Serve media files during development

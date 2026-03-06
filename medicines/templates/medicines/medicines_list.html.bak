@@ -27,9 +27,9 @@
                 <label for="rating" class="form-label small fw-bold text-muted text-uppercase">Min Rating</label>
                 <select name="rating" id="rating" class="form-select">
                     <option value="">Any Rating</option>
-                    <option value="4" {% if request.GET.rating == "4" %}selected{% endif %}>4+ Stars</option>
-                    <option value="3" {% if request.GET.rating == "3" %}selected{% endif %}>3+ Stars</option>
-                    <option value="2" {% if request.GET.rating == "2" %}selected{% endif %}>2+ Stars</option>
+                    <option value="4" {% if request.GET.rating=="4" %}selected{% endif %}>4+ Stars</option>
+                    <option value="3" {% if request.GET.rating=="3" %}selected{% endif %}>3+ Stars</option>
+                    <option value="2" {% if request.GET.rating=="2" %}selected{% endif %}>2+ Stars</option>
                 </select>
             </div>
 
@@ -38,9 +38,9 @@
                 <label for="sort" class="form-label small fw-bold text-muted text-uppercase">Sort By Price</label>
                 <select name="sort" id="sort" class="form-select">
                     <option value="">Default</option>
-                    <option value="price_asc" {% if request.GET.sort == "price_asc" %}selected{% endif %}>Lowest First
+                    <option value="price_asc" {% if request.GET.sort=="price_asc" %}selected{% endif %}>Lowest First
                     </option>
-                    <option value="price_desc" {% if request.GET.sort == "price_desc" %}selected{% endif %}>Highest First
+                    <option value="price_desc" {% if request.GET.sort=="price_desc" %}selected{% endif %}>Highest First
                     </option>
                 </select>
             </div>
