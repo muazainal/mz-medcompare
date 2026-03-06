@@ -85,10 +85,10 @@
                     {% endif %}
                     {% else %}
                     <!-- Standard User View -->
-                    <form action="{% url 'create_purchase_session' medicine.id %}" method="POST">
+                    <form action="{% url 'add_to_cart' medicine.id %}" method="POST">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary fw-bold shadow-sm px-4 btn-hover-transform">
-                            <i class="bi bi-cart-fill me-2"></i> Buy Now (${{ medicine.price }})
+                            <i class="bi bi-cart-plus me-2"></i> Add to Cart (${{ medicine.price }})
                         </button>
                     </form>
                     {% endif %}

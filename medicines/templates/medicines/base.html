@@ -24,6 +24,18 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark me-2" href="{% url 'submit_medicine' %}">Submit Medicine</a>
                     </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-dark position-relative" href="{% url 'view_cart' %}">
+                            <i class="bi bi-cart3 fs-5"></i> Cart
+                            {% if cart_count > 0 %}
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ cart_count }}
+                                <span class="visually-hidden">items in cart</span>
+                            </span>
+                            {% endif %}
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark me-2" href="{% url 'my_orders' %}">My Orders</a>
                     </li>
