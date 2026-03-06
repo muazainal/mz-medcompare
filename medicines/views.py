@@ -203,12 +203,13 @@ def stripe_webhook(request):
             except Medicine.DoesNotExist:
                 pass
                 
-        # Payment for Buying Medicine (Standard User)
-        purchase_medicine_id = session.get('metadata', {}).get('purchase_medicine_id')
+        # Payment for Buying Medicine (Standard User - Single or Cart)
         user_id = session.get('metadata', {}).get('user_id')
-        if purchase_medicine_id and user_id:
+        cart_json = session.get('metadata', {}).get('cart')
+        purchase_medicine_id = session.get('metadata', {}).get('purchase_medicine_id') # legacy single purchase fall-back
+        
+        if user_id:
             try:
-                medicine = Medicine.objects.get(id=purchase_medicine_id)
                 user = User.objects.get(id=user_id)
                 
                 # Extract shipping address
@@ -228,57 +229,86 @@ def stripe_webhook(request):
                 
                 shipping_address = ", ".join([p for p in address_parts if p])
                 
-                Order.objects.create(
-                    user=user,
-                    medicine=medicine,
-                    stripe_checkout_id=session.get('id'),
-                    amount=medicine.price,
-                    shipping_address=shipping_address
-                )
-            except (Medicine.DoesNotExist, User.DoesNotExist):
+                import json
+                
+                items_to_process = []
+                
+                if cart_json:
+                    # Cart checkout
+                    cart = json.loads(cart_json)
+                    for med_id, _ in cart.items():
+                        try:
+                            med = Medicine.objects.get(id=int(med_id))
+                            items_to_process.append(med)
+                        except Medicine.DoesNotExist:
+                            continue
+                elif purchase_medicine_id:
+                    # Single item checkout (fallback)
+                    try:
+                        med = Medicine.objects.get(id=purchase_medicine_id)
+                        items_to_process.append(med)
+                    except Medicine.DoesNotExist:
+                        pass
+                        
+                for medicine in items_to_process:
+                    Order.objects.create(
+                        user=user,
+                        medicine=medicine,
+                        stripe_checkout_id=session.get('id'),
+                        amount=medicine.price,
+                        shipping_address=shipping_address
+                    )
+            except User.DoesNotExist:
                 pass
 
     return HttpResponse(status=200)
 
 @login_required
-def create_purchase_session(request, medicine_id):
-    try:
-        medicine = Medicine.objects.get(id=medicine_id)
-    except Medicine.DoesNotExist:
-        messages.error(request, "Medicine not found.")
-        return redirect('home')
-
+def checkout_cart(request):
+    cart = request.session.get('cart', {})
+    if not cart:
+        messages.error(request, "Your cart is empty.")
+        return redirect('view_cart')
+        
     domain_url = request.build_absolute_uri('/')[:-1]
     
-    # Ensure price is handled correctly (Stripe expects cents)
-    unit_amount = int(medicine.price * 100)
+    line_items = []
+    medicines = []
     
-    if unit_amount == 0:
-        messages.error(request, "This medicine has no price set.")
-        return redirect('medicine_detail', pk=medicine.id)
-
-    try:
-        checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            shipping_address_collection={
-                'allowed_countries': ['US', 'CA', 'GB', 'AU', 'MY'], # Example countries
-            },
-            line_items=[
-                {
+    for str_id, quantity in cart.items():
+        try:
+            medicine = Medicine.objects.get(id=int(str_id))
+            unit_amount = int(medicine.price * 100)
+            if unit_amount > 0:
+                line_items.append({
                     'price_data': {
                         'currency': 'usd',
                         'unit_amount': unit_amount,
                         'product_data': {
                             'name': f"Purchase {medicine.name}",
-                            'description': f"Order for {medicine.name} from {medicine.manufacturer.name}.",
                         },
                     },
-                    'quantity': 1,
-                },
-            ],
+                    'quantity': quantity,
+                })
+                medicines.append(medicine)
+        except Medicine.DoesNotExist:
+            continue
+            
+    if not line_items:
+        messages.error(request, "No valid items in your cart to checkout.")
+        return redirect('view_cart')
+
+    try:
+        import json
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            shipping_address_collection={
+                'allowed_countries': ['US', 'CA', 'GB', 'AU', 'MY'],
+            },
+            line_items=line_items,
             mode='payment',
             metadata={
-                'purchase_medicine_id': medicine.id,
+                'cart': json.dumps(cart),
                 'user_id': request.user.id
             },
             success_url=domain_url + '/purchase-success/',
@@ -287,11 +317,65 @@ def create_purchase_session(request, medicine_id):
         return redirect(checkout_session.url, code=303)
     except Exception as e:
         messages.error(request, f"Error creating purchase session: {str(e)}")
-        return redirect('medicine_detail', pk=medicine.id)
+        return redirect('view_cart')
+
+# --- CART LOGIC ---
+@login_required
+def add_to_cart(request, medicine_id):
+    medicine = Medicine.objects.get(id=medicine_id)
+    cart = request.session.get('cart', {})
+    
+    # Simple cart: just 1 of each for now, or increment if we support multiples
+    str_id = str(medicine_id)
+    if str_id in cart:
+        cart[str_id] += 1
+    else:
+        cart[str_id] = 1
+        
+    request.session['cart'] = cart
+    messages.success(request, f"'{medicine.name}' added to your cart.")
+    return redirect('medicine_detail', pk=medicine_id)
+
+@login_required
+def remove_from_cart(request, medicine_id):
+    cart = request.session.get('cart', {})
+    str_id = str(medicine_id)
+    
+    if str_id in cart:
+        del cart[str_id]
+        request.session['cart'] = cart
+        messages.success(request, "Item removed from your cart.")
+        
+    return redirect('view_cart')
+
+@login_required
+def view_cart(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    total_price = 0
+    
+    for str_id, quantity in cart.items():
+        try:
+            medicine = Medicine.objects.get(id=int(str_id))
+            subtotal = medicine.price * quantity
+            total_price += subtotal
+            cart_items.append({
+                'medicine': medicine,
+                'quantity': quantity,
+                'subtotal': subtotal
+            })
+        except Medicine.DoesNotExist:
+            continue
+            
+    return render(request, 'medicines/cart.html', {
+        'cart_items': cart_items,
+        'total_price': total_price
+    })
 
 def purchase_success(request):
+    request.session['cart'] = {} # Clear cart on success
     messages.success(request, "Order placed successfully! We have received your shipping details.")
-    return redirect('home')
+    return redirect('my_orders')
 
 def purchase_cancel(request):
     messages.warning(request, "Order was cancelled.")
