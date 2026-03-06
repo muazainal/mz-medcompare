@@ -72,3 +72,16 @@ class LabReport(models.Model):
     def __str__(self):
         medicine_name = self.medicine.name if self.medicine else "No Medicine"
         return f"LabReport {self.id} for {medicine_name}"
+
+
+# ORDER MODEL (User Purchases)
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name='orders')
+    stripe_checkout_id = models.CharField(max_length=255, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    shipping_address = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order {self.id} by {self.user.username} for {self.medicine.name}"
