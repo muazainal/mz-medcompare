@@ -33,6 +33,7 @@ class Medicine(models.Model):
         null=True,  # optional, safer for existing data
         blank=True
     )
+    is_paid = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

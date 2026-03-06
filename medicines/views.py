@@ -4,8 +4,15 @@ from django.contrib.auth.models import Group
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.contrib import messages
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+import stripe
+
 from .models import Medicine, LabReport, Manufacturer
 from .forms import MedicineForm, CustomSignupForm
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # HOME PAGE
 @login_required
@@ -16,7 +23,10 @@ def home(request):
     sort = request.GET.get('sort')               # sort by price
 
     # --- Base Queryset ---
-    medicines = Medicine.objects.all()
+    if hasattr(request.user, 'manufacturer_profile'):
+        medicines = Medicine.objects.filter(Q(is_paid=True) | Q(manufacturer=request.user.manufacturer_profile))
+    else:
+        medicines = Medicine.objects.filter(is_paid=True)
 
     # --- SEARCH ---
     if search_query:
@@ -110,3 +120,79 @@ def submit_medicine(request):
     else:
         form = MedicineForm()
     return render(request, 'medicines/submit_medicine.html', {'form': form})
+
+# --- STRIPE LOGIC ---
+@login_required
+@manufacturer_required
+def create_checkout_session(request, medicine_id):
+    try:
+        medicine = Medicine.objects.get(id=medicine_id, manufacturer=request.user.manufacturer_profile)
+    except Medicine.DoesNotExist:
+        messages.error(request, "Medicine not found or access denied.")
+        return redirect('home')
+    
+    if medicine.is_paid:
+        messages.info(request, "This medicine is already published.")
+        return redirect('medicine_detail', pk=medicine.id)
+
+    domain_url = request.build_absolute_uri('/')[:-1]
+    
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'usd',
+                        'unit_amount': 5000, # $50.00 listing fee
+                        'product_data': {
+                            'name': f"Publish {medicine.name}",
+                            'description': "One-time fee to publish medicine on MedCompare.",
+                        },
+                    },
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            metadata={'medicine_id': medicine.id},
+            success_url=domain_url + '/payment-success/',
+            cancel_url=domain_url + '/payment-cancel/',
+        )
+        return redirect(checkout_session.url, code=303)
+    except Exception as e:
+        messages.error(request, f"Error creating checkout session: {str(e)}")
+        return redirect('medicine_detail', pk=medicine.id)
+
+def payment_success(request):
+    messages.success(request, "Payment successful! Your medicine is now published.")
+    return redirect('home')
+
+def payment_cancel(request):
+    messages.warning(request, "Payment was cancelled.")
+    return redirect('home')
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    event = None
+
+    try:
+        import json
+        event = stripe.Event.construct_from(
+            json.loads(payload), stripe.api_key
+        )
+    except ValueError as e:
+        return HttpResponse(status=400)
+
+    if event.type == 'checkout.session.completed':
+        session = event.data.object
+        medicine_id = session.get('metadata', {}).get('medicine_id')
+        if medicine_id:
+            try:
+                medicine = Medicine.objects.get(id=medicine_id)
+                medicine.is_paid = True
+                medicine.save()
+            except Medicine.DoesNotExist:
+                pass
+
+    return HttpResponse(status=200)
