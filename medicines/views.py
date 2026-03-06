@@ -171,8 +171,8 @@ def create_checkout_session(request, medicine_id):
             line_items=[
                 {
                     'price_data': {
-                        'currency': 'usd',
-                        'unit_amount': 5000, # $50.00 listing fee
+                        'currency': 'gbp',
+                        'unit_amount': 5000, # £50.00 listing fee
                         'product_data': {
                             'name': f"Publish {medicine.name}",
                             'description': "One-time fee to publish medicine on MedCompare.",
@@ -310,7 +310,7 @@ def create_purchase_session(request, medicine_id):
             line_items=[
                 {
                     'price_data': {
-                        'currency': 'usd',
+                        'currency': 'gbp',
                         'unit_amount': unit_amount,
                         'product_data': {
                             'name': f"Purchase {medicine.name}",
@@ -352,7 +352,7 @@ def checkout_cart(request):
             if unit_amount > 0:
                 line_items.append({
                     'price_data': {
-                        'currency': 'usd',
+                        'currency': 'gbp',
                         'unit_amount': unit_amount,
                         'product_data': {
                             'name': f"Purchase {medicine.name}",
