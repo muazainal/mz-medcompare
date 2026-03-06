@@ -1,25 +1,85 @@
 {% extends 'medicines/base.html' %}
 
-{% block title %}Submit Medicine | MedCompare{% endblock %}
+{% block title %}Submit New Medicine | MedCompare{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm border-0 p-5" style="border-radius: 12px;">
-                <h2 class="fw-bold text-primary mb-4">Submit New Medicine</h2>
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle-fill me-2"></i> This page is currently a placeholder for the Day 5
-                    submission form.
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0"
+            style="border-radius: 12px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-primary">Submit New Medicine</h2>
+                    <p class="text-muted">Register a new product with verified lab reports</p>
                 </div>
-                <p class="text-muted">As a verified Manufacturer, you will soon be able to upload PDF specifications and
-                    submit medicine data directly to MedCompare.</p>
 
-                <hr class="my-4">
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    {% csrf_token %}
 
-                <button class="btn btn-secondary disabled">Form Coming on Day 5</button>
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Medicine Name</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Price ($)</label>
+                            {{ form.price }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Main Formula</label>
+                            {{ form.formula }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Dosage</label>
+                            {{ form.dosage }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Description</label>
+                            {{ form.description }}
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="p-4 border border-dashed rounded bg-light">
+                                <label class="form-label fw-bold small text-uppercase text-muted d-block mb-3">
+                                    <i class="bi bi-file-earmark-pdf text-danger me-2"></i> Quality Lab Report (PDF)
+                                </label>
+                                {{ form.lab_report }}
+                                <div class="form-text small mt-2">Maximum file size: 5MB. Must be a valid PDF.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 mt-5">
+                            <button type="submit"
+                                class="btn btn-primary w-100 py-3 fw-bold shadow-sm rounded-pill transition">
+                                <i class="bi bi-cloud-arrow-up me-2"></i> Publish Medicine
+                            </button>
+                            <a href="{% url 'home' %}"
+                                class="btn btn-link w-100 mt-2 text-decoration-none text-muted small">
+                                Cancel and return home
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .transition {
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3) !important;
+    }
+
+    .border-dashed {
+        border-style: dashed !important;
+        border-width: 2px !important;
+    }
+</style>
 {% endblock %}

@@ -3,7 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
-from .models import Medicine
+from django.contrib import messages
+from .models import Medicine, LabReport, Manufacturer
+from .forms import MedicineForm
 
 # HOME PAGE
 @login_required
