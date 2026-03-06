@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
 from .models import Medicine
 
 # HOME PAGE
@@ -19,7 +21,8 @@ def home(request):
         medicines = medicines.filter(
             Q(name__icontains=search_query) |
             Q(manufacturer__name__icontains=search_query) |
-            Q(formulas__name__icontains=search_query)  # using related_name
+            Q(formula__icontains=search_query) |
+            Q(formulas__name__icontains=search_query)
         ).distinct()
 
     # --- FILTER ---
@@ -48,3 +51,26 @@ def medicine_detail(request, pk):
         'medicines/medicine_detail.html',
         {'medicine': medicine}
     )
+
+# SIGNUP/REGISTER
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+# MANUFACTURER DECORATOR
+def manufacturer_required(view_func):
+    def check_manufacturer(user):
+        return user.groups.filter(name='Manufacturers').exists() or user.is_superuser
+    return user_passes_test(check_manufacturer)(view_func)
+
+# SUBMIT MEDICINE (Day 5 Placeholder)
+@login_required
+@manufacturer_required
+def submit_medicine(request):
+    return render(request, 'medicines/submit_medicine.html')
