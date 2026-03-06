@@ -33,9 +33,9 @@
                                         {{ item.medicine.name }}
                                     </a>
                                 </td>
-                                <td>${{ item.medicine.price }}</td>
+                                <td>£{{ item.medicine.price }}</td>
                                 <td>{{ item.quantity }}</td>
-                                <td class="fw-bold">${{ item.subtotal }}</td>
+                                <td class="fw-bold">£{{ item.subtotal }}</td>
                                 <td class="pe-4 text-end">
                                     <form action="{% url 'remove_from_cart' item.medicine.id %}" method="POST"
                                         class="d-inline">
@@ -51,7 +51,7 @@
                         <tfoot class="table-light">
                             <tr>
                                 <td colspan="3" class="text-end fw-bold ps-4 py-3 fs-5">Total:</td>
-                                <td colspan="2" class="fw-bold fs-5 text-primary py-3">${{ total_price|floatformat:2 }}
+                                <td colspan="2" class="fw-bold fs-5 text-primary py-3">£{{ total_price|floatformat:2 }}
                                 </td>
                             </tr>
                         </tfoot>
@@ -109,7 +109,7 @@
                                         {{ order.medicine.name }}
                                     </a>
                                 </td>
-                                <td><span class="badge bg-success">${{ order.amount }}</span></td>
+                                <td><span class="badge bg-success">£{{ order.amount }}</span></td>
                                 <td class="pe-4 text-end text-muted small">{{ order.shipping_address|default:"Not
                                     provided" }}</td>
                             </tr>
