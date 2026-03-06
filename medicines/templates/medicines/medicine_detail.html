@@ -70,6 +70,18 @@
                     <a href="{% url 'home' %}" class="btn btn-outline-secondary">
                         &larr; Back to List
                     </a>
+                    {% if user.is_authenticated and medicine.manufacturer.user == user %}
+                    {% if not medicine.is_paid %}
+                    <form action="{% url 'create_checkout_session' medicine.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success fw-bold shadow-sm px-4">
+                            <i class="bi bi-credit-card me-2"></i> Pay to Publish ($50)
+                        </button>
+                    </form>
+                    {% else %}
+                    <span class="badge bg-success px-3 py-2"><i class="bi bi-check-circle me-1"></i> Published</span>
+                    {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>

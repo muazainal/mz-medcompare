@@ -124,3 +124,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Authentication Redirects
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
+
+# Stripe Settings
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', 'pk_test_51QTtestplaceholderpublishkey')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'sk_test_51QTtestplaceholdersecretkey')
+

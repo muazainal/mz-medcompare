@@ -28,6 +28,10 @@ urlpatterns = [
     path('medicine/<int:pk>/', views.medicine_detail, name='medicine_detail'),
     path('signup/', views.signup, name='signup'),
     path('submit/', views.submit_medicine, name='submit_medicine'),
+    path('create-checkout-session/<int:medicine_id>/', views.create_checkout_session, name='create_checkout_session'),
+    path('payment-success/', views.payment_success, name='payment_success'),
+    path('payment-cancel/', views.payment_cancel, name='payment_cancel'),
+    path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
 ]
 
 # Serve media files during development
