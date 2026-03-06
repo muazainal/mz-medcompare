@@ -19,4 +19,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+    // --- Signup Role Toggle ---
+    const userRadio = document.getElementById('role_user');
+    const manufacturerRadio = document.getElementById('role_manufacturer');
+    const manufacturerFields = document.getElementById('manufacturer-fields');
+
+    if (userRadio && manufacturerRadio && manufacturerFields) {
+        function toggleFields() {
+            if (manufacturerRadio.checked) {
+                manufacturerFields.style.display = 'block';
+            } else {
+                manufacturerFields.style.display = 'none';
+            }
+        }
+
+        userRadio.addEventListener('change', toggleFields);
+        manufacturerRadio.addEventListener('change', toggleFields);
+        userRadio.addEventListener('click', toggleFields);
+        manufacturerRadio.addEventListener('click', toggleFields);
+
+        toggleFields();
+    }
 });

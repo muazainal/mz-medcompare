@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.contrib import messages
 from .models import Medicine, LabReport, Manufacturer
-from .forms import MedicineForm
+from .forms import MedicineForm, CustomSignupForm
 
 # HOME PAGE
 @login_required
@@ -57,12 +57,25 @@ def medicine_detail(request, pk):
 # SIGNUP/REGISTER
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomSignupForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            role = form.cleaned_data.get('role')
+            
+            if role == 'manufacturer':
+                # Create Manufacturer profile
+                name = form.cleaned_data.get('manufacturer_name')
+                address = form.cleaned_data.get('manufacturer_address')
+                Manufacturer.objects.create(user=user, name=name, address=address)
+                
+                # Add to Manufacturers group
+                group, created = Group.objects.get_or_create(name='Manufacturers')
+                user.groups.add(group)
+            
+            messages.success(request, "Account created successfully! Please log in.")
             return redirect('login')
     else:
-        form = UserCreationForm()
+        form = CustomSignupForm()
     return render(request, 'registration/signup.html', {'form': form})
 
 # MANUFACTURER DECORATOR
