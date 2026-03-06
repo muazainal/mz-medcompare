@@ -46,12 +46,25 @@
                         </form>
                     </li>
                     {% else %}
+                    {% url 'login' as login_url %}
+                    {% url 'signup' as signup_url %}
+
+                    {% if request.path == login_url %}
                     <li class="nav-item">
-                        <a class="nav-link btn btn-primary text-white" href="{% url 'login' %}">Login</a>
+                        <a class="btn btn-primary text-white ms-2 px-4 shadow-sm" href="{{ signup_url }}">Sign Up</a>
+                    </li>
+                    {% elif request.path == signup_url %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary ms-2 px-4 shadow-sm" href="{{ login_url }}">Login</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary px-4 shadow-sm" href="{{ login_url }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary ms-2" href="{% url 'signup' %}">Sign Up</a>
+                        <a class="btn btn-primary text-white ms-2 px-4 shadow-sm" href="{{ signup_url }}">Sign Up</a>
                     </li>
+                    {% endif %}
                     {% endif %}
                 </ul>
             </div>
