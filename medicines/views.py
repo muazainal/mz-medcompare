@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import stripe
 
-from .models import Medicine, LabReport, Manufacturer
+from .models import Medicine, LabReport, Manufacturer, Order
 from .forms import MedicineForm, CustomSignupForm
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -121,6 +121,12 @@ def submit_medicine(request):
         form = MedicineForm()
     return render(request, 'medicines/submit_medicine.html', {'form': form})
 
+# MY ORDERS
+@login_required
+def my_orders(request):
+    orders = request.user.orders.all().order_by('-created_at')
+    return render(request, 'medicines/my_orders.html', {'orders': orders})
+
 # --- STRIPE LOGIC ---
 @login_required
 @manufacturer_required
@@ -186,6 +192,8 @@ def stripe_webhook(request):
 
     if event.type == 'checkout.session.completed':
         session = event.data.object
+        
+        # Payment for Publishing Medicine (Manufacturer)
         medicine_id = session.get('metadata', {}).get('medicine_id')
         if medicine_id:
             try:
@@ -194,5 +202,97 @@ def stripe_webhook(request):
                 medicine.save()
             except Medicine.DoesNotExist:
                 pass
+                
+        # Payment for Buying Medicine (Standard User)
+        purchase_medicine_id = session.get('metadata', {}).get('purchase_medicine_id')
+        user_id = session.get('metadata', {}).get('user_id')
+        if purchase_medicine_id and user_id:
+            try:
+                medicine = Medicine.objects.get(id=purchase_medicine_id)
+                user = User.objects.get(id=user_id)
+                
+                # Extract shipping address
+                shipping = session.get('shipping_details', {})
+                address_parts = []
+                if shipping and shipping.get('address'):
+                    addr = shipping['address']
+                    address_parts = [
+                        shipping.get('name', ''),
+                        addr.get('line1', ''),
+                        addr.get('line2', ''),
+                        addr.get('city', ''),
+                        addr.get('state', ''),
+                        addr.get('postal_code', ''),
+                        addr.get('country', '')
+                    ]
+                
+                shipping_address = ", ".join([p for p in address_parts if p])
+                
+                Order.objects.create(
+                    user=user,
+                    medicine=medicine,
+                    stripe_checkout_id=session.get('id'),
+                    amount=medicine.price,
+                    shipping_address=shipping_address
+                )
+            except (Medicine.DoesNotExist, User.DoesNotExist):
+                pass
 
     return HttpResponse(status=200)
+
+@login_required
+def create_purchase_session(request, medicine_id):
+    try:
+        medicine = Medicine.objects.get(id=medicine_id)
+    except Medicine.DoesNotExist:
+        messages.error(request, "Medicine not found.")
+        return redirect('home')
+
+    domain_url = request.build_absolute_uri('/')[:-1]
+    
+    # Ensure price is handled correctly (Stripe expects cents)
+    unit_amount = int(medicine.price * 100)
+    
+    if unit_amount == 0:
+        messages.error(request, "This medicine has no price set.")
+        return redirect('medicine_detail', pk=medicine.id)
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            shipping_address_collection={
+                'allowed_countries': ['US', 'CA', 'GB', 'AU', 'MY'], # Example countries
+            },
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'usd',
+                        'unit_amount': unit_amount,
+                        'product_data': {
+                            'name': f"Purchase {medicine.name}",
+                            'description': f"Order for {medicine.name} from {medicine.manufacturer.name}.",
+                        },
+                    },
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            metadata={
+                'purchase_medicine_id': medicine.id,
+                'user_id': request.user.id
+            },
+            success_url=domain_url + '/purchase-success/',
+            cancel_url=domain_url + '/purchase-cancel/',
+        )
+        return redirect(checkout_session.url, code=303)
+    except Exception as e:
+        messages.error(request, f"Error creating purchase session: {str(e)}")
+        return redirect('medicine_detail', pk=medicine.id)
+
+def purchase_success(request):
+    messages.success(request, "Order placed successfully! We have received your shipping details.")
+    return redirect('home')
+
+def purchase_cancel(request):
+    messages.warning(request, "Order was cancelled.")
+    return redirect('home')

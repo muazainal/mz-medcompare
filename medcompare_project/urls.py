@@ -32,6 +32,10 @@ urlpatterns = [
     path('payment-success/', views.payment_success, name='payment_success'),
     path('payment-cancel/', views.payment_cancel, name='payment_cancel'),
     path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
+    path('buy/<int:medicine_id>/', views.create_purchase_session, name='create_purchase_session'),
+    path('purchase-success/', views.purchase_success, name='purchase_success'),
+    path('purchase-cancel/', views.purchase_cancel, name='purchase_cancel'),
+    path('my-orders/', views.my_orders, name='my_orders'),
 ]
 
 # Serve media files during development
