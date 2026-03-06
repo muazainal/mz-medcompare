@@ -121,11 +121,33 @@ def submit_medicine(request):
         form = MedicineForm()
     return render(request, 'medicines/submit_medicine.html', {'form': form})
 
-# MY ORDERS
+# MY ORDERS & CART
 @login_required
 def my_orders(request):
-    orders = request.user.orders.all().order_by('-created_at')
-    return render(request, 'medicines/my_orders.html', {'orders': orders})
+    past_orders = request.user.orders.all().order_by('-created_at')
+    
+    cart = request.session.get('cart', {})
+    cart_items = []
+    total_price = 0
+    
+    for str_id, quantity in cart.items():
+        try:
+            medicine = Medicine.objects.get(id=int(str_id))
+            subtotal = medicine.price * quantity
+            total_price += subtotal
+            cart_items.append({
+                'medicine': medicine,
+                'quantity': quantity,
+                'subtotal': subtotal
+            })
+        except Medicine.DoesNotExist:
+            continue
+            
+    return render(request, 'medicines/my_orders.html', {
+        'orders': past_orders,
+        'cart_items': cart_items,
+        'total_price': total_price
+    })
 
 # --- STRIPE LOGIC ---
 @login_required
@@ -264,6 +286,54 @@ def stripe_webhook(request):
     return HttpResponse(status=200)
 
 @login_required
+def create_purchase_session(request, medicine_id):
+    try:
+        medicine = Medicine.objects.get(id=medicine_id)
+    except Medicine.DoesNotExist:
+        messages.error(request, "Medicine not found.")
+        return redirect('home')
+
+    domain_url = request.build_absolute_uri('/')[:-1]
+    
+    unit_amount = int(medicine.price * 100)
+    
+    if unit_amount == 0:
+        messages.error(request, "This medicine has no price set.")
+        return redirect('medicine_detail', pk=medicine.id)
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            shipping_address_collection={
+                'allowed_countries': ['US', 'CA', 'GB', 'AU', 'MY'],
+            },
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'usd',
+                        'unit_amount': unit_amount,
+                        'product_data': {
+                            'name': f"Purchase {medicine.name}",
+                            'description': f"Order for {medicine.name} from {medicine.manufacturer.name}.",
+                        },
+                    },
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            metadata={
+                'purchase_medicine_id': medicine.id,
+                'user_id': request.user.id
+            },
+            success_url=domain_url + '/purchase-success/',
+            cancel_url=domain_url + '/purchase-cancel/',
+        )
+        return redirect(checkout_session.url, code=303)
+    except Exception as e:
+        messages.error(request, f"Error creating purchase session: {str(e)}")
+        return redirect('medicine_detail', pk=medicine.id)
+
+@login_required
 def checkout_cart(request):
     cart = request.session.get('cart', {})
     if not cart:
@@ -296,7 +366,7 @@ def checkout_cart(request):
             
     if not line_items:
         messages.error(request, "No valid items in your cart to checkout.")
-        return redirect('view_cart')
+        return redirect('my_orders')
 
     try:
         import json
@@ -317,7 +387,7 @@ def checkout_cart(request):
         return redirect(checkout_session.url, code=303)
     except Exception as e:
         messages.error(request, f"Error creating purchase session: {str(e)}")
-        return redirect('view_cart')
+        return redirect('my_orders')
 
 # --- CART LOGIC ---
 @login_required
@@ -346,31 +416,7 @@ def remove_from_cart(request, medicine_id):
         request.session['cart'] = cart
         messages.success(request, "Item removed from your cart.")
         
-    return redirect('view_cart')
-
-@login_required
-def view_cart(request):
-    cart = request.session.get('cart', {})
-    cart_items = []
-    total_price = 0
-    
-    for str_id, quantity in cart.items():
-        try:
-            medicine = Medicine.objects.get(id=int(str_id))
-            subtotal = medicine.price * quantity
-            total_price += subtotal
-            cart_items.append({
-                'medicine': medicine,
-                'quantity': quantity,
-                'subtotal': subtotal
-            })
-        except Medicine.DoesNotExist:
-            continue
-            
-    return render(request, 'medicines/cart.html', {
-        'cart_items': cart_items,
-        'total_price': total_price
-    })
+    return redirect('my_orders')
 
 def purchase_success(request):
     request.session['cart'] = {} # Clear cart on success
