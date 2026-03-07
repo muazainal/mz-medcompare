@@ -1,20 +1,200 @@
 {% extends 'medicines/base.html' %}
 
-{% block title %}Medicines | MedCompare{% endblock %}
+{% block title %}MedCompare — Compare Medicines, Find the Best Prices{% endblock %}
 
 {% block content %}
-<h1 class="text-center mb-4">All Medicines</h1>
+
+{% if not user.is_authenticated %}
+
+{# ===================== HERO SECTION ===================== #}
+<section class="hero-section" style="margin: -1.5rem -12px 0; padding-left: 0; padding-right: 0;">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="container hero-content">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="hero-badge">
+                    <i class="bi bi-shield-check"></i> Trusted Medicine Comparison Platform
+                </div>
+                <h1 class="hero-title">
+                    Compare Medicines.<br>
+                    Find the <span class="highlight">Best Price.</span><br>
+                    Every Time.
+                </h1>
+                <p class="hero-subtitle">
+                    MedCompare makes it effortless to discover, compare, and order medicines from
+                    verified manufacturers — saving you time and money.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="{% url 'signup' %}" class="btn-hero-primary">
+                        <i class="bi bi-rocket-takeoff-fill"></i> Get Started Free
+                    </a>
+                    <a href="#features" class="btn-hero-secondary">
+                        <i class="bi bi-play-circle"></i> See How It Works
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <div class="hero-stat-number">500+</div>
+                        <div class="hero-stat-label">Medicines Listed</div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="hero-stat-number">120+</div>
+                        <div class="hero-stat-label">Manufacturers</div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="hero-stat-number">30%</div>
+                        <div class="hero-stat-label">Avg. Cost Saving</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1 d-none d-lg-block">
+                <div class="hero-visual">
+                    <div class="hero-card-float">
+                        <div class="card-label">Today's Best Deal</div>
+                        <div class="card-value">RM 4.20 saved</div>
+                        <div class="card-desc">Paracetamol 500mg — 3 manufacturers compared</div>
+                    </div>
+                    <div class="hero-mini-card">
+                        <div class="mini-icon"><i class="bi bi-graph-down-arrow"></i></div>
+                        <div class="mini-text">
+                            <strong>Price Drop Alert</strong>
+                            <span>Amoxicillin — down 12% this week</span>
+                        </div>
+                    </div>
+                    <div class="hero-mini-card">
+                        <div class="mini-icon"><i class="bi bi-star-fill"></i></div>
+                        <div class="mini-text">
+                            <strong>Top Rated</strong>
+                            <span>Ibuprofen 400mg — 4.9 / 5.0 rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ===================== FEATURES SECTION ===================== #}
+<section id="features" class="features-section section-pad">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-tag">Why MedCompare</span>
+            <h2 class="section-title">Everything you need to make smarter medicine choices</h2>
+            <p class="section-subtitle mx-auto">
+                A single platform that brings price transparency, quality ratings,
+                and manufacturer data together.
+            </p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+                    <h5>Real-Time Price Comparison</h5>
+                    <p>Instantly compare prices across all registered manufacturers to find the best deal every time.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon"><i class="bi bi-patch-check-fill"></i></div>
+                    <h5>Verified Manufacturers</h5>
+                    <p>All manufacturers are verified before listing. Shop with confidence knowing who made your
+                        medicine.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon"><i class="bi bi-star-half"></i></div>
+                    <h5>Ratings & Reviews</h5>
+                    <p>Community-driven ratings help you identify the highest-quality medicines at each price point.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon"><i class="bi bi-cart-check-fill"></i></div>
+                    <h5>One-Click Ordering</h5>
+                    <p>Add to cart or buy instantly — streamlined checkout with full order history tracking.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon"><i class="bi bi-bell-fill"></i></div>
+                    <h5>Smart Search & Filters</h5>
+                    <p>Filter by formula, dosage, rating, or price. Find what you need in seconds, not minutes.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon"><i class="bi bi-building-fill-check"></i></div>
+                    <h5>Manufacturer Portal</h5>
+                    <p>Are you a manufacturer? List your medicines, manage inventory, and reach thousands of buyers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ===================== HOW IT WORKS ===================== #}
+<section id="how-it-works" class="how-section section-pad">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-tag">How It Works</span>
+            <h2 class="section-title">Up and running in three simple steps</h2>
+        </div>
+        <div class="row g-0 justify-content-center position-relative">
+            <div class="col-md-4 position-relative">
+                <div class="step-card fade-in-up">
+                    <div class="step-number">1</div>
+                    <h5>Create Your Account</h5>
+                    <p>Sign up as a user or manufacturer in under a minute. No credit card needed to browse.</p>
+                </div>
+                <div class="step-connector d-none d-md-block"></div>
+            </div>
+            <div class="col-md-4 position-relative">
+                <div class="step-card fade-in-up">
+                    <div class="step-number">2</div>
+                    <h5>Search & Compare</h5>
+                    <p>Search by medicine name, formula, or manufacturer. Compare prices and ratings side by side.</p>
+                </div>
+                <div class="step-connector d-none d-md-block"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card fade-in-up">
+                    <div class="step-number">3</div>
+                    <h5>Order with Confidence</h5>
+                    <p>Place your order directly from the best-priced, highest-rated manufacturer and track it live.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ===================== CTA SECTION ===================== #}
+<section class="cta-section" style="margin: 0 -12px;">
+    <div class="container">
+        <h2 class="cta-title">Ready to save on every medicine order?</h2>
+        <p class="cta-sub">Join thousands of users already comparing and saving with MedCompare.</p>
+        <a href="{% url 'signup' %}" class="btn-hero-primary" style="display:inline-flex;">
+            <i class="bi bi-person-plus-fill"></i> Create Free Account
+        </a>
+    </div>
+</section>
+
+{% else %}
+
+{# ===================== MEDICINES LIST (logged in) ===================== #}
+<h1 class="fw-bold mb-4" style="font-size:1.75rem; letter-spacing:-0.5px;">All Medicines</h1>
 
 <!-- Search and Filter Form -->
-<div class="card shadow-sm mb-5 border-0"
-    style="border-radius: 12px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px);">
+<div class="filter-bar card shadow-sm mb-5 border-0">
     <div class="card-body p-4">
         <form method="get" action="{% url 'home' %}" class="row g-3" id="medicine-filter-form">
             <!-- Search Keyword -->
             <div class="col-md-5">
-                <label for="search" class="form-label small fw-bold text-muted text-uppercase">Search</label>
+                <label for="search" class="form-label text-uppercase">Search</label>
                 <div class="input-group">
-                    <span class="input-group-text bg-white border-end-0 text-primary">
+                    <span class="input-group-text bg-white border-end-0 text-muted">
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" name="search" id="search" class="form-control border-start-0"
@@ -24,7 +204,7 @@
 
             <!-- Rating Filter -->
             <div class="col-md-3">
-                <label for="rating" class="form-label small fw-bold text-muted text-uppercase">Min Rating</label>
+                <label for="rating" class="form-label text-uppercase">Min Rating</label>
                 <select name="rating" id="rating" class="form-select">
                     <option value="">Any Rating</option>
                     {% if request.GET.rating == "4" %}
@@ -32,13 +212,11 @@
                     {% else %}
                     <option value="4">4+ Stars</option>
                     {% endif %}
-
                     {% if request.GET.rating == "3" %}
                     <option value="3" selected>3+ Stars</option>
                     {% else %}
                     <option value="3">3+ Stars</option>
                     {% endif %}
-
                     {% if request.GET.rating == "2" %}
                     <option value="2" selected>2+ Stars</option>
                     {% else %}
@@ -49,7 +227,7 @@
 
             <!-- Price Sort -->
             <div class="col-md-3">
-                <label for="sort" class="form-label small fw-bold text-muted text-uppercase">Sort By Price</label>
+                <label for="sort" class="form-label text-uppercase">Sort By Price</label>
                 <select name="sort" id="sort" class="form-select">
                     <option value="">Default</option>
                     {% if request.GET.sort == "price_asc" %}
@@ -57,7 +235,6 @@
                     {% else %}
                     <option value="price_asc">Lowest First</option>
                     {% endif %}
-
                     {% if request.GET.sort == "price_desc" %}
                     <option value="price_desc" selected>Highest First</option>
                     {% else %}
@@ -68,7 +245,7 @@
 
             <!-- Submit Button -->
             <div class="col-md-1 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100 shadow-sm">
+                <button type="submit" class="btn btn-primary w-100">
                     <i class="bi bi-filter"></i>
                 </button>
             </div>
@@ -79,46 +256,42 @@
 <div class="row">
     {% for med in medicines %}
     <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100 p-3">
+        <div class="medicine-card card h-100 p-3">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-primary">
-                    {{ med.name }}
-                </h5>
+                <h5 class="card-title fw-bold" style="color: var(--primary);">{{ med.name }}</h5>
                 <p>
                     <strong>Formula:</strong><br>
                     <span class="text-muted">{{ med.formula }}</span>
                 </p>
                 <p class="card-text">
-                    <strong>Dosage:</strong>
-                    {{ med.dosage }}
+                    <strong>Dosage:</strong> {{ med.dosage }}
                 </p>
                 <p class="card-text">
-                    <strong>Manufacturer:</strong>
-                    {{ med.manufacturer.name }}
+                    <strong>Manufacturer:</strong> {{ med.manufacturer.name }}
                 </p>
                 {% if user.is_authenticated and med.manufacturer.user == user %}
                 <div class="mb-2">
                     {% if med.is_paid %}
-                    <span class="badge bg-success small"><i class="bi bi-check-circle me-1"></i> Published</span>
+                    <span class="badge bg-success small"><i class="bi bi-check-circle me-1"></i>Published</span>
                     {% else %}
-                    <span class="badge bg-warning text-dark small"><i class="bi bi-hourglass-split me-1"></i> Pending
+                    <span class="badge bg-warning text-dark small"><i class="bi bi-hourglass-split me-1"></i>Pending
                         Payment</span>
                     {% endif %}
                 </div>
                 {% endif %}
                 <div class="mb-3">
                     <span class="badge bg-warning text-dark">
-                        <i class="bi bi-star-fill"></i> ⭐ {{ med.rating|floatformat:1 }} / 5.0
+                        <i class="bi bi-star-fill me-1"></i>{{ med.rating|floatformat:1 }} / 5.0
                     </span>
                 </div>
-                <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-primary btn-sm">
-                    View Details
-                </a>
+                <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-primary btn-sm">View Details</a>
             </div>
         </div>
     </div>
     {% empty %}
-    <p class="text-center">No medicines found.</p>
+    <p class="text-center text-muted">No medicines found.</p>
     {% endfor %}
 </div>
+
+{% endif %}
 {% endblock %}

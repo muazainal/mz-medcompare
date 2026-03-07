@@ -2,47 +2,93 @@
 
 {% block title %}Login | MedCompare{% endblock %}
 
-{% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5">
-        <div class="card shadow-lg border-0" style="border-radius: 15px;">
-            <div class="card-body p-5">
-                <h3 class="text-center mb-4 fw-bold text-primary">Secure Login</h3>
-                <p class="text-muted text-center mb-4 small">Please sign in to access MedCompare</p>
+{% block full_page %}
+{% if messages %}
+<div class="container pt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 
-                <form method="post">
-                    {% csrf_token %}
+<div class="auth-wrapper">
+    <!-- Left Brand Panel -->
+    <div class="auth-panel-left">
+        <a href="{% url 'home' %}" class="brand">Med<span>Compare</span></a>
+        <div class="auth-left-content">
+            <h2>Welcome back.<br>Sign in to your account.</h2>
+            <p>
+                Access your order history, compare medicines, and manage your profile —
+                all in one secure place.
+            </p>
+            <ul class="auth-feature-list">
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Compare prices across 120+ manufacturers
+                </li>
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Full order history &amp; tracking
+                </li>
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Smart search by formula &amp; dosage
+                </li>
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Secure, verified platform
+                </li>
+            </ul>
+        </div>
+    </div>
 
-                    {% if form.errors %}
-                    <div class="alert alert-danger py-2 small">
-                        Invalid username or password. Please try again.
-                    </div>
-                    {% endif %}
+    <!-- Right Form Panel -->
+    <div class="auth-panel-right">
+        <div class="auth-form-box">
+            <h1>Sign In</h1>
+            <p class="auth-sub">Enter your credentials to continue</p>
 
-                    <div class="mb-3">
-                        <label for="id_username" class="form-label small fw-semibold">Username</label>
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                <div class="alert alert-danger py-2 small">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                    Invalid username or password. Please try again.
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="id_username" class="form-label">Username</label>
+                    <div class="input-icon-wrap">
+                        <span class="input-icon"><i class="bi bi-person"></i></span>
                         <input type="text" name="username" autofocus maxlength="150" required id="id_username"
                             class="form-control" placeholder="Enter your username">
                     </div>
+                </div>
 
-                    <div class="mb-4">
-                        <label for="id_password" class="form-label small fw-semibold">Password</label>
+                <div class="form-group">
+                    <label for="id_password" class="form-label">Password</label>
+                    <div class="input-icon-wrap">
+                        <span class="input-icon"><i class="bi bi-lock"></i></span>
                         <input type="password" name="password" required id="id_password" class="form-control"
                             placeholder="••••••••">
                     </div>
-
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary py-2 fw-bold shadow-sm">Sign In</button>
-                    </div>
-
-                    <input type="hidden" name="next" value="{{ next }}">
-                </form>
-
-                <div class="mt-4 text-center">
-                    <p class="small text-muted mb-0">Don't have an account? <a href="{% url 'signup' %}"
-                            class="text-primary fw-semibold text-decoration-none">Sign Up</a></p>
                 </div>
-            </div>
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <button type="submit" class="btn-auth-submit">
+                    Sign In <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+            </form>
+
+            <p class="auth-alt-link">
+                Don't have an account? <a href="{% url 'signup' %}">Create one free</a>
+            </p>
         </div>
     </div>
 </div>

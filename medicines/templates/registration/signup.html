@@ -2,99 +2,147 @@
 
 {% block title %}Sign Up | MedCompare{% endblock %}
 
-{% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card shadow-lg border-0 auth-card" style="border-radius: 15px;">
-            <div class="card-body p-5">
-                <h3 class="text-center mb-4 fw-bold text-primary">Join MedCompare</h3>
-                <p class="text-muted text-center mb-4 small">Select your role and create your account</p>
+{% block full_page %}
+{% if messages %}
+<div class="container pt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 
-                <form method="post" id="signup-form">
-                    {% csrf_token %}
+<div class="auth-wrapper">
+    <!-- Left Brand Panel -->
+    <div class="auth-panel-left">
+        <a href="{% url 'home' %}" class="brand">Med<span>Compare</span></a>
+        <div class="auth-left-content">
+            <h2>Join MedCompare today.</h2>
+            <p>
+                Whether you're a user looking for the best medicine prices or a manufacturer
+                wanting to list your products — we've got you covered.
+            </p>
+            <ul class="auth-feature-list">
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Free to sign up, no credit card required
+                </li>
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Instant access to 500+ medicines
+                </li>
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Manufacturer portal to list &amp; sell
+                </li>
+                <li>
+                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                    Save an average of 30% on orders
+                </li>
+            </ul>
+        </div>
+    </div>
 
-                    <!-- Role Selection -->
-                    <div class="mb-4 text-center">
-                        <label class="form-label d-block fw-bold small text-muted text-uppercase mb-3">I am signing up
-                            as a...</label>
-                        <div class="btn-group w-100" role="group">
-                            <input type="radio" class="btn-check" name="role" id="role_user" value="user" checked>
-                            <label class="btn btn-outline-primary py-2" for="role_user">
-                                <i class="bi bi-person me-2"></i>User
-                            </label>
+    <!-- Right Form Panel -->
+    <div class="auth-panel-right">
+        <div class="auth-form-box">
+            <h1>Create Account</h1>
+            <p class="auth-sub">Pick your role and fill in your details</p>
 
-                            <input type="radio" class="btn-check" name="role" id="role_manufacturer"
-                                value="manufacturer">
-                            <label class="btn btn-outline-primary py-2" for="role_manufacturer">
-                                <i class="bi bi-building me-2"></i>Manufacturer
-                            </label>
-                        </div>
-                    </div>
+            <form method="post" id="signup-form">
+                {% csrf_token %}
 
-                    <!-- Core User Fields -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold text-muted">Username</label>
-                        {{ form.username }}
-                        {% if form.username.help_text %}
-                        <div class="form-text">{{ form.username.help_text|safe }}</div>
-                        {% endif %}
-                        {% if form.username.errors %}
-                        <div class="text-danger small mt-1">{{ form.username.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold text-muted">Password</label>
-                        {{ form.password1 }}
-                        {% if form.password1.help_text %}
-                        <div class="form-text">{{ form.password1.help_text|safe }}</div>
-                        {% endif %}
-                        {% if form.password1.errors %}
-                        <div class="text-danger small mt-1">{{ form.password1.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold text-muted">Confirm Password</label>
-                        {{ form.password2 }}
-                        {% if form.password2.errors %}
-                        <div class="text-danger small mt-1">{{ form.password2.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Manufacturer Specific Fields -->
-                    <div id="manufacturer-fields" style="display: none;">
-                        <hr class="my-4">
-                        <h6 class="fw-bold text-muted small text-uppercase mb-3">Company Information</h6>
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold text-muted">Company Name</label>
-                            {{ form.manufacturer_name }}
-                            {% if form.manufacturer_name.errors %}
-                            <div class="text-danger small mt-1">{{ form.manufacturer_name.errors|striptags }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold text-muted">Company Address</label>
-                            {{ form.manufacturer_address }}
-                            {% if form.manufacturer_address.errors %}
-                            <div class="text-danger small mt-1">{{ form.manufacturer_address.errors|striptags }}</div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="d-grid gap-2 mt-5">
-                        <button type="submit"
-                            class="btn btn-primary btn-lg fw-bold shadow-sm rounded-pill py-3 transition btn-hover-transform">
-                            Create My Account
-                        </button>
-                    </div>
-                </form>
-
-                <div class="mt-4 text-center">
-                    <p class="small text-muted mb-0">Already have an account? <a href="{% url 'login' %}"
-                            class="text-primary fw-semibold">Sign In</a></p>
+                <!-- Role Selection -->
+                <div class="role-toggle">
+                    <input type="radio" class="btn-check" name="role" id="role_user" value="user" checked>
+                    <label for="role_user">
+                        <i class="bi bi-person"></i> User
+                    </label>
+                    <input type="radio" class="btn-check" name="role" id="role_manufacturer" value="manufacturer">
+                    <label for="role_manufacturer">
+                        <i class="bi bi-building"></i> Manufacturer
+                    </label>
                 </div>
-            </div>
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <div class="input-icon-wrap">
+                        <span class="input-icon"><i class="bi bi-person"></i></span>
+                        {{ form.username }}
+                    </div>
+                    {% if form.username.help_text %}
+                    <div class="form-text">{{ form.username.help_text|safe }}</div>
+                    {% endif %}
+                    {% if form.username.errors %}
+                    <div class="text-danger small mt-1">{{ form.username.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-icon-wrap">
+                        <span class="input-icon"><i class="bi bi-lock"></i></span>
+                        {{ form.password1 }}
+                    </div>
+                    {% if form.password1.help_text %}
+                    <div class="form-text">{{ form.password1.help_text|safe }}</div>
+                    {% endif %}
+                    {% if form.password1.errors %}
+                    <div class="text-danger small mt-1">{{ form.password1.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <div class="input-icon-wrap">
+                        <span class="input-icon"><i class="bi bi-lock-fill"></i></span>
+                        {{ form.password2 }}
+                    </div>
+                    {% if form.password2.errors %}
+                    <div class="text-danger small mt-1">{{ form.password2.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Manufacturer Specific Fields -->
+                <div id="manufacturer-fields" style="display: none;">
+                    <div class="auth-divider">Company Information</div>
+
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        <div class="input-icon-wrap">
+                            <span class="input-icon"><i class="bi bi-building"></i></span>
+                            {{ form.manufacturer_name }}
+                        </div>
+                        {% if form.manufacturer_name.errors %}
+                        <div class="text-danger small mt-1">{{ form.manufacturer_name.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Company Address</label>
+                        <div class="input-icon-wrap">
+                            <span class="input-icon"><i class="bi bi-geo-alt"></i></span>
+                            {{ form.manufacturer_address }}
+                        </div>
+                        {% if form.manufacturer_address.errors %}
+                        <div class="text-danger small mt-1">{{ form.manufacturer_address.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-auth-submit">
+                    Create My Account <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+            </form>
+
+            <p class="auth-alt-link">
+                Already have an account? <a href="{% url 'login' %}">Sign In</a>
+            </p>
         </div>
     </div>
 </div>
