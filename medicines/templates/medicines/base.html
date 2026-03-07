@@ -44,8 +44,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link text-muted">Hello, <strong class="text-dark">{{ user.username
-                                }}</strong></span>
+                        <span class="nav-link text-muted">
+                            Hello, <strong class="text-dark">{{ user.username }}</strong>
+                        </span>
                     </li>
                     <li class="nav-item">
                         <form action="{% url 'logout' %}" method="post" style="display:inline;">
