@@ -23,12 +23,7 @@ print("Loading users...")
 for item in data:
     if item['model'] == 'auth.user':
         fields = item['fields']
-        # username might be natural key if dumped with --natural-primary
-        # but --natural-primary outputs dict/list pk sometimes.
-        pk = item['pk']
-        
-        # In natural primary for auth.User, pk is the username itself. 
-        username = pk[0] if isinstance(pk, list) else (fields.get('username') or pk)
+        username = fields.get('username')
         if isinstance(username, list): 
             username = username[0]
             
