@@ -209,7 +209,7 @@ def payment_success(request):
             messages.error(request, f"Error verifying payment: {str(e)}")
     else:
         messages.success(request, "Payment successful! Your medicine is being processed.")
-    return redirect('home')
+    return render(request, 'medicines/success.html')
 
 def payment_cancel(request):
     messages.warning(request, "Payment was cancelled.")
@@ -432,7 +432,7 @@ def remove_from_cart(request, medicine_id):
         request.session['cart'] = cart
         messages.success(request, "Item removed from your cart.")
         
-    return render(request, 'medicines/success.html')
+    return redirect('my_orders')
 
 def purchase_success(request):
     session_id = request.GET.get('session_id')
@@ -499,7 +499,7 @@ def purchase_success(request):
     else:
         messages.success(request, "Order placed successfully!")
 
-    return redirect('my_orders')
+    return render(request, 'medicines/success.html')
 
 def purchase_cancel(request):
     messages.warning(request, "Order was cancelled.")
