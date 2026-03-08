@@ -999,6 +999,15 @@ input[type="email"]:focus {
     box-shadow: 0 4px 12px rgba(10, 22, 40, 0.2);
 }
 
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+    color: #ffffff !important;
+}
+
 .btn-outline-primary {
     border-color: var(--primary);
     color: var(--primary);
