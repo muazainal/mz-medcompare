@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="#">Live Demo (Coming Soon)</a>
+  <a href="https://mz-medcompare-app-9e3f302ecb1b.herokuapp.com/accounts/login/">Live Demo</a>
 </p>
 
 ---
