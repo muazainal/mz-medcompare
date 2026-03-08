@@ -1141,7 +1141,18 @@ input[type="email"]:focus {
 
 [data-theme="dark"] .bg-light,
 [data-theme="dark"] .table-light {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: #1a2a47 !important;
+    color: var(--text-dark) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] thead.table-light th {
+    background-color: #1a2a47 !important;
+    color: var(--text-dark) !important;
+}
+
+[data-theme="dark"] tfoot.table-light td {
+    background-color: #1a2a47 !important;
     color: var(--text-dark) !important;
 }
 
@@ -1284,7 +1295,8 @@ input[type="email"]:focus {
 
 [data-theme="dark"] .btn-nav-primary,
 [data-theme="dark"] .btn-auth-submit,
-[data-theme="dark"] .btn-primary {
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-success {
     color: #0A1628 !important;
 }
 

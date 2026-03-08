@@ -7,12 +7,12 @@
     <div class="col-md-10">
 
         <!-- CART SECTION -->
-        <h2 class="mb-4 fw-bold" style="color: var(--primary);">
+        <h2 class="mb-4 text-primary fw-bold">
             <i class="bi bi-cart3 me-2"></i> Cart
         </h2>
 
         {% if cart_items %}
-        <div class="card glass-container shadow-sm border-0 mb-5" style="border-radius: 12px;">
+        <div class="card shadow-sm border-0 mb-5" style="border-radius: 12px;">
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 align-middle">
@@ -64,7 +64,7 @@
                 </a>
                 <form action="{% url 'checkout_cart' %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-success btn-lg fw-bold shadow-sm px-5 btn-hover-transform">
+                    <button type="submit" class="btn btn-success fw-bold shadow-sm px-4 btn-hover-transform">
                         Checkout with Stripe <i class="bi bi-chevron-right ms-2"></i>
                     </button>
                 </form>
@@ -80,12 +80,12 @@
         {% endif %}
 
         <!-- PAST ORDERS SECTION -->
-        <h2 class="mb-4 fw-bold" style="color: var(--primary);">
+        <h2 class="mb-4 text-secondary fw-bold">
             <i class="bi bi-clock-history me-2"></i> Order History
         </h2>
 
         {% if orders %}
-        <div class="card glass-container shadow-sm border-0" style="border-radius: 12px;">
+        <div class="card shadow-sm border-0" style="border-radius: 12px;">
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 align-middle" style="font-size: 0.95rem;">
