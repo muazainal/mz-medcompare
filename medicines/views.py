@@ -338,7 +338,7 @@ def checkout_cart(request):
     cart = request.session.get('cart', {})
     if not cart:
         messages.error(request, "Your cart is empty.")
-        return redirect('view_cart')
+        return redirect('my_orders')
         
     domain_url = request.build_absolute_uri('/')[:-1]
     
