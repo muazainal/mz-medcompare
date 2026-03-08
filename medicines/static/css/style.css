@@ -865,8 +865,8 @@ input[type="email"]:focus {
 /* Submit button */
 .btn-auth-submit {
     width: 100%;
-    background: var(--primary);
-    color: #fff;
+    background: var(--accent);
+    color: var(--primary);
     border: none;
     border-radius: var(--radius-sm);
     padding: 0.85rem 1.5rem;
@@ -879,7 +879,7 @@ input[type="email"]:focus {
 }
 
 .btn-auth-submit:hover {
-    background: var(--accent);
+    background: var(--accent-dark);
     color: var(--primary);
     box-shadow: 0 6px 20px var(--accent-glow);
     transform: translateY(-2px);
@@ -1169,4 +1169,35 @@ input[type="email"]:focus {
 [data-theme="dark"] .site-footer {
     background: #050b14;
     color: rgba(255, 255, 255, 0.4);
+}
+
+/* Auth Pages Overrides for Dark Mode */
+[data-theme="dark"] .auth-panel-left {
+    background: linear-gradient(145deg, #050b14 0%, #0a1628 60%, #112240 100%);
+}
+
+[data-theme="dark"] .auth-panel-left .brand {
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .btn-nav-primary,
+[data-theme="dark"] .btn-auth-submit {
+    color: #0A1628 !important;
+}
+
+[data-theme="dark"] .form-label,
+[data-theme="dark"] .auth-form-box h1 {
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .input-icon-wrap .input-icon {
+    color: #a8b2c1;
+}
+
+[data-theme="dark"] ::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="dark"] .auth-panel-right {
+    background-color: var(--card-bg);
 }
