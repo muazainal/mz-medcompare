@@ -1139,8 +1139,23 @@ input[type="email"]:focus {
     color: var(--text-dark) !important;
 }
 
-[data-theme="dark"] .bg-light {
-    background-color: #1a2a47 !important;
+[data-theme="dark"] .bg-light,
+[data-theme="dark"] .table-light {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-dark) !important;
+}
+
+[data-theme="dark"] .table {
+    color: var(--text-dark) !important;
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+[data-theme="dark"] .card-footer {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 [data-theme="dark"] .text-muted {
@@ -1189,7 +1204,8 @@ input[type="email"]:focus {
 
 [data-theme="dark"] .filter-bar,
 [data-theme="dark"] .medicine-card,
-[data-theme="dark"] .medicine-detail-card {
+[data-theme="dark"] .medicine-detail-card,
+[data-theme="dark"] .glass-container {
     background: rgba(10, 22, 40, 0.55) !important;
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
