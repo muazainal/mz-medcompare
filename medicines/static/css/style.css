@@ -1147,6 +1147,16 @@ input[type="email"]:focus {
     color: var(--light-bg);
 }
 
+[data-theme="dark"] .btn-outline-primary {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+[data-theme="dark"] .btn-outline-primary:hover {
+    background: var(--accent);
+    color: #0A1628;
+}
+
 [data-theme="dark"] .custom-bg-primary {
     background-color: var(--accent) !important;
     color: #0A1628 !important;
@@ -1171,6 +1181,18 @@ input[type="email"]:focus {
 [data-theme="dark"] .medicine-card {
     background-color: var(--card-bg);
     border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .medicine-card .text-muted,
+[data-theme="dark"] .medicine-detail-card .text-muted {
+    color: #a8b2c1 !important;
+}
+
+[data-theme="dark"] h5.card-title,
+[data-theme="dark"] h2.display-5,
+[data-theme="dark"] h4.mb-4,
+[data-theme="dark"] h3 {
+    color: #F4F7FE;
 }
 
 [data-theme="dark"] .input-group-text {
