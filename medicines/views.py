@@ -432,7 +432,7 @@ def remove_from_cart(request, medicine_id):
         request.session['cart'] = cart
         messages.success(request, "Item removed from your cart.")
         
-    return redirect('my_orders')
+    return render(request, 'medicines/success.html')
 
 def purchase_success(request):
     session_id = request.GET.get('session_id')
