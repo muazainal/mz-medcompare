@@ -183,7 +183,7 @@ def create_checkout_session(request, medicine_id):
             ],
             mode='payment',
             metadata={'medicine_id': medicine.id},
-            success_url=domain_url + '/payment-success/',
+            success_url=domain_url + '/payment-success/?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=domain_url + '/payment-cancel/',
         )
         return redirect(checkout_session.url, code=303)
@@ -192,7 +192,23 @@ def create_checkout_session(request, medicine_id):
         return redirect('medicine_detail', pk=medicine.id)
 
 def payment_success(request):
-    messages.success(request, "Payment successful! Your medicine is now published.")
+    session_id = request.GET.get('session_id')
+    if session_id:
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            medicine_id = session.metadata.get('medicine_id')
+            if medicine_id:
+                medicine = Medicine.objects.get(id=medicine_id)
+                if not medicine.is_paid:
+                    medicine.is_paid = True
+                    medicine.save()
+                    messages.success(request, f"Payment verified! '{medicine.name}' has been published.")
+                else:
+                    messages.info(request, "Payment already verified.")
+        except Exception as e:
+            messages.error(request, f"Error verifying payment: {str(e)}")
+    else:
+        messages.success(request, "Payment successful! Your medicine is being processed.")
     return redirect('home')
 
 def payment_cancel(request):
@@ -325,7 +341,7 @@ def create_purchase_session(request, medicine_id):
                 'purchase_medicine_id': medicine.id,
                 'user_id': request.user.id
             },
-            success_url=domain_url + '/purchase-success/',
+            success_url=domain_url + '/purchase-success/?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=domain_url + '/purchase-cancel/',
         )
         return redirect(checkout_session.url, code=303)
@@ -381,7 +397,7 @@ def checkout_cart(request):
                 'cart': json.dumps(cart),
                 'user_id': request.user.id
             },
-            success_url=domain_url + '/purchase-success/',
+            success_url=domain_url + '/purchase-success/?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=domain_url + '/purchase-cancel/',
         )
         return redirect(checkout_session.url, code=303)
@@ -419,8 +435,70 @@ def remove_from_cart(request, medicine_id):
     return redirect('my_orders')
 
 def purchase_success(request):
-    request.session['cart'] = {} # Clear cart on success
-    messages.success(request, "Order placed successfully! We have received your shipping details.")
+    session_id = request.GET.get('session_id')
+    request.session['cart'] = {} # Clear cart immediately
+    
+    if session_id:
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            user_id = session.metadata.get('user_id')
+            cart_json = session.metadata.get('cart')
+            purchase_medicine_id = session.metadata.get('purchase_medicine_id')
+            
+            # Extract shipping address
+            shipping = session.get('shipping_details', {})
+            address_parts = []
+            if shipping and shipping.get('address'):
+                addr = shipping['address']
+                address_parts = [
+                    shipping.get('name', ''),
+                    addr.get('line1', ''),
+                    addr.get('line2', ''),
+                    addr.get('city', ''),
+                    addr.get('state', ''),
+                    addr.get('postal_code', ''),
+                    addr.get('country', '')
+                ]
+            shipping_address = ", ".join([p for p in address_parts if p])
+
+            items_to_process = []
+            if cart_json:
+                import json
+                cart = json.loads(cart_json)
+                for med_id in cart.keys():
+                    try:
+                        med = Medicine.objects.get(id=int(med_id))
+                        items_to_process.append(med)
+                    except: continue
+            elif purchase_medicine_id:
+                try:
+                    med = Medicine.objects.get(id=int(purchase_medicine_id))
+                    items_to_process.append(med)
+                except: pass
+
+            orders_created = 0
+            for med in items_to_process:
+                # Check if order already exists for this session to avoid duplicates (webhook vs redirect)
+                if not Order.objects.filter(stripe_checkout_id=session_id, medicine=med).exists():
+                    Order.objects.create(
+                        user=request.user,
+                        medicine=med,
+                        stripe_checkout_id=session_id,
+                        amount=med.price,
+                        shipping_address=shipping_address
+                    )
+                    orders_created += 1
+            
+            if orders_created > 0:
+                messages.success(request, f"Successfully processed {orders_created} order(s)!")
+            else:
+                messages.info(request, "Your order summary is ready.")
+
+        except Exception as e:
+            messages.error(request, f"Note: Your payment was successful, but we had trouble updating the order history locally: {str(e)}")
+    else:
+        messages.success(request, "Order placed successfully!")
+
     return redirect('my_orders')
 
 def purchase_cancel(request):
