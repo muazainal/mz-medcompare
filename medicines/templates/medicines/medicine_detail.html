@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card shadow border-0" style="border-radius: 15px;">
+        <div class="card medicine-detail-card shadow border-0" style="border-radius: 15px;">
             <div class="card-body p-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="fw-bold custom-text-primary mb-0">{{ medicine.name }}</h2>
@@ -50,7 +50,7 @@
                             target="_blank">
                             <i class="bi bi-file-earmark-pdf-fill text-danger fs-4 me-3"></i>
                             <div class="flex-grow-1">
-                                <div class="fw-bold text-dark">Lab Report #{{ report.id }}</div>
+                                <div class="fw-bold" style="color: var(--primary);">Lab Report #{{ report.id }}</div>
                                 <div class="small text-muted">Uploaded on {{ report.uploaded_at|date:"M d, Y" }}</div>
                             </div>
                             <i class="bi bi-download custom-text-primary"></i>

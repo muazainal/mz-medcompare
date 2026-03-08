@@ -604,27 +604,27 @@ body {
 }
 
 /* =============================================
-   MEDICINES LIST (logged-in state)
+   GLASS CARDS & MEDICINES LIST
    ============================================= */
-.filter-bar {
-    background: #fff;
-    border: 1px solid var(--border);
+.filter-bar,
+.medicine-card,
+.medicine-detail-card {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
     border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-}
-
-.medicine-card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    transition: var(--transition);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 8px 32px rgba(10, 22, 40, 0.08);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .medicine-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: rgba(20, 197, 160, 0.25);
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 16px 40px rgba(10, 22, 40, 0.15);
+    border-color: rgba(255, 255, 255, 0.9) !important;
 }
 
 /* =============================================
@@ -1136,6 +1136,7 @@ input[type="email"]:focus {
 [data-theme="dark"] .bg-white,
 [data-theme="dark"] .card {
     background-color: var(--card-bg) !important;
+    color: var(--text-dark) !important;
 }
 
 [data-theme="dark"] .bg-light {
@@ -1187,9 +1188,17 @@ input[type="email"]:focus {
 }
 
 [data-theme="dark"] .filter-bar,
-[data-theme="dark"] .medicine-card {
-    background-color: var(--card-bg);
-    border-color: rgba(255, 255, 255, 0.1);
+[data-theme="dark"] .medicine-card,
+[data-theme="dark"] .medicine-detail-card {
+    background: rgba(10, 22, 40, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] .medicine-card:hover {
+    background: rgba(10, 22, 40, 0.85) !important;
+    border-color: rgba(20, 197, 160, 0.4) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 [data-theme="dark"] .medicine-card .text-muted,
@@ -1258,7 +1267,8 @@ input[type="email"]:focus {
 }
 
 [data-theme="dark"] .btn-nav-primary,
-[data-theme="dark"] .btn-auth-submit {
+[data-theme="dark"] .btn-auth-submit,
+[data-theme="dark"] .btn-primary {
     color: #0A1628 !important;
 }
 

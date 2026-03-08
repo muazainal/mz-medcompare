@@ -285,8 +285,7 @@
                             <i class="bi bi-star-fill me-1"></i>{{ med.rating|floatformat:1 }} / 5.0
                         </span>
                     </div>
-                    <a href="{% url 'medicine_detail' med.pk %}"
-                        class="btn custom-bg-primary text-white btn-sm shadow-sm"
+                    <a href="{% url 'medicine_detail' med.pk %}" class="btn custom-bg-primary btn-sm shadow-sm"
                         style="border-radius: var(--radius-sm); font-weight: 600; padding: 0.5rem 1rem; width: fit-content;">View
                         Details &rarr;</a>
                 </div>
