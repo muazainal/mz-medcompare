@@ -15,80 +15,82 @@
 {% endif %}
 
 <div class="auth-wrapper">
-    <!-- Left Brand Panel -->
-    <div class="auth-panel-left">
-        <a href="{% url 'home' %}" class="brand">Med<span>Compare</span></a>
-        <div class="auth-left-content">
-            <h2>Welcome back.<br>Sign in to your account.</h2>
-            <p>
-                Access your order history, compare medicines, and manage your profile —
-                all in one secure place.
-            </p>
-            <ul class="auth-feature-list">
-                <li>
-                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
-                    Compare prices across 120+ manufacturers
-                </li>
-                <li>
-                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
-                    Full order history &amp; tracking
-                </li>
-                <li>
-                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
-                    Smart search by formula &amp; dosage
-                </li>
-                <li>
-                    <span class="check-icon"><i class="bi bi-check-lg"></i></span>
-                    Secure, verified platform
-                </li>
-            </ul>
+    <div class="auth-glass-panel">
+        <!-- Left Brand Panel -->
+        <div class="auth-panel-left">
+            <a href="{% url 'home' %}" class="brand">Med<span>Compare</span></a>
+            <div class="auth-left-content">
+                <h2>Welcome back.<br>Sign in to your account.</h2>
+                <p>
+                    Access your order history, compare medicines, and manage your profile —
+                    all in one secure place.
+                </p>
+                <ul class="auth-feature-list">
+                    <li>
+                        <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                        Compare prices across 120+ manufacturers
+                    </li>
+                    <li>
+                        <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                        Full order history &amp; tracking
+                    </li>
+                    <li>
+                        <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                        Smart search by formula &amp; dosage
+                    </li>
+                    <li>
+                        <span class="check-icon"><i class="bi bi-check-lg"></i></span>
+                        Secure, verified platform
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <!-- Right Form Panel -->
-    <div class="auth-panel-right">
-        <div class="auth-form-box">
-            <h1>Sign In</h1>
-            <p class="auth-sub">Enter your credentials to continue</p>
+        <!-- Right Form Panel -->
+        <div class="auth-panel-right">
+            <div class="auth-form-box">
+                <h1>Sign In</h1>
+                <p class="auth-sub">Enter your credentials to continue</p>
 
-            <form method="post">
-                {% csrf_token %}
+                <form method="post">
+                    {% csrf_token %}
 
-                {% if form.errors %}
-                <div class="alert alert-danger py-2 small">
-                    <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                    Invalid username or password. Please try again.
-                </div>
-                {% endif %}
-
-                <div class="form-group">
-                    <label for="id_username" class="form-label">Username</label>
-                    <div class="input-icon-wrap">
-                        <span class="input-icon"><i class="bi bi-person"></i></span>
-                        <input type="text" name="username" autofocus maxlength="150" required id="id_username"
-                            class="form-control" placeholder="Enter your username">
+                    {% if form.errors %}
+                    <div class="alert alert-danger py-2 small">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                        Invalid username or password. Please try again.
                     </div>
-                </div>
+                    {% endif %}
 
-                <div class="form-group">
-                    <label for="id_password" class="form-label">Password</label>
-                    <div class="input-icon-wrap">
-                        <span class="input-icon"><i class="bi bi-lock"></i></span>
-                        <input type="password" name="password" required id="id_password" class="form-control"
-                            placeholder="••••••••">
+                    <div class="form-group">
+                        <label for="id_username" class="form-label">Username</label>
+                        <div class="input-icon-wrap">
+                            <span class="input-icon"><i class="bi bi-person"></i></span>
+                            <input type="text" name="username" autofocus maxlength="150" required id="id_username"
+                                class="form-control" placeholder="Enter your username">
+                        </div>
                     </div>
-                </div>
 
-                <input type="hidden" name="next" value="{{ next }}">
+                    <div class="form-group">
+                        <label for="id_password" class="form-label">Password</label>
+                        <div class="input-icon-wrap">
+                            <span class="input-icon"><i class="bi bi-lock"></i></span>
+                            <input type="password" name="password" required id="id_password" class="form-control"
+                                placeholder="••••••••">
+                        </div>
+                    </div>
 
-                <button type="submit" class="btn-auth-submit">
-                    Sign In <i class="bi bi-arrow-right ms-1"></i>
-                </button>
-            </form>
+                    <input type="hidden" name="next" value="{{ next }}">
 
-            <p class="auth-alt-link">
-                Don't have an account? <a href="{% url 'signup' %}">Create one free</a>
-            </p>
+                    <button type="submit" class="btn-auth-submit">
+                        Sign In <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </form>
+
+                <p class="auth-alt-link">
+                    Don't have an account? <a href="{% url 'signup' %}">Create one free</a>
+                </p>
+            </div>
         </div>
     </div>
 </div>
