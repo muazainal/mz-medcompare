@@ -733,7 +733,6 @@ input[type="email"]:focus {
 .glass-container {
     display: flex;
     width: 100%;
-    max-width: 960px;
     background: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
@@ -745,10 +744,13 @@ input[type="email"]:focus {
 
 .auth-glass-panel {
     flex-direction: row;
+    max-width: 960px;
+    margin: 0 auto;
 }
 
 .glass-container {
     flex-direction: column;
+    max-width: 100%;
 }
 
 .auth-panel-left {
