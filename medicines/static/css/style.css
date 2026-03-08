@@ -701,51 +701,56 @@ input[type="email"]:focus {
 .auth-wrapper {
     min-height: 100vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    background-image: url('../images/auth_bg_light.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 1;
+}
+
+.auth-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.35);
+    z-index: -1;
+}
+
+/* Unified Glass Panel container */
+.auth-glass-panel {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 960px;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(10, 22, 40, 0.12);
+    overflow: hidden;
 }
 
 .auth-panel-left {
     width: 44%;
     flex-shrink: 0;
-    background: linear-gradient(145deg, var(--primary) 0%, #112240 60%, #1a3a6e 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     padding: 3.5rem 3rem;
     position: relative;
-    overflow: hidden;
-}
-
-.auth-panel-left::before {
-    content: '';
-    position: absolute;
-    width: 380px;
-    height: 380px;
-    background: var(--accent);
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.14;
-    top: -100px;
-    right: -80px;
-}
-
-.auth-panel-left::after {
-    content: '';
-    position: absolute;
-    width: 260px;
-    height: 260px;
-    background: #4a8fe8;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.12;
-    bottom: -80px;
-    left: -60px;
 }
 
 .auth-panel-left .brand {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #fff;
+    color: var(--primary);
+    text-shadow: 0 4px 16px rgba(255, 255, 255, 0.6);
     letter-spacing: -0.5px;
     margin-bottom: 3rem;
     position: relative;
@@ -765,7 +770,7 @@ input[type="email"]:focus {
 .auth-left-content h2 {
     font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 800;
-    color: #fff;
+    color: var(--primary);
     line-height: 1.2;
     letter-spacing: -0.5px;
     margin-bottom: 1rem;
@@ -773,9 +778,10 @@ input[type="email"]:focus {
 
 .auth-left-content p {
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-dark);
     line-height: 1.7;
     margin-bottom: 2rem;
+    font-weight: 500;
 }
 
 .auth-feature-list {
@@ -788,9 +794,9 @@ input[type="email"]:focus {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: rgba(255, 255, 255, 0.80);
+    color: var(--primary);
     font-size: 0.92rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 0.9rem;
 }
 
@@ -803,7 +809,7 @@ input[type="email"]:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--accent);
+    color: var(--accent-dark);
     font-size: 0.75rem;
     flex-shrink: 0;
 }
@@ -815,8 +821,15 @@ input[type="email"]:focus {
     justify-content: center;
     align-items: center;
     padding: 3rem 2rem;
-    background: var(--light-bg);
+    background: rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
     overflow-y: auto;
+}
+
+.auth-form-box .form-control {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .auth-form-box {
@@ -962,7 +975,7 @@ input[type="email"]:focus {
 
 /* Responsive: auth split becomes single column on mobile */
 @media (max-width: 768px) {
-    .auth-wrapper {
+    .auth-glass-panel {
         flex-direction: column;
     }
 
@@ -1172,12 +1185,42 @@ input[type="email"]:focus {
 }
 
 /* Auth Pages Overrides for Dark Mode */
-[data-theme="dark"] .auth-panel-left {
-    background: linear-gradient(145deg, #050b14 0%, #0a1628 60%, #112240 100%);
+[data-theme="dark"] .auth-wrapper {
+    background-image: url('../images/auth_bg_dark.png');
+}
+
+[data-theme="dark"] .auth-wrapper::before {
+    background: rgba(10, 22, 40, 0.45);
+}
+
+[data-theme="dark"] .auth-glass-panel {
+    background: rgba(10, 22, 40, 0.4);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .auth-panel-left .brand {
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    color: #F4F7FE;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .auth-left-content h2,
+[data-theme="dark"] .auth-feature-list li {
+    color: #F4F7FE;
+}
+
+[data-theme="dark"] .auth-left-content p {
+    color: #a8b2c1;
+}
+
+[data-theme="dark"] .auth-panel-right {
+    background: rgba(10, 22, 40, 0.55);
+    border-left-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .auth-form-box .form-control {
+    background: rgba(10, 22, 40, 0.5);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 [data-theme="dark"] .btn-nav-primary,
@@ -1187,7 +1230,7 @@ input[type="email"]:focus {
 
 [data-theme="dark"] .form-label,
 [data-theme="dark"] .auth-form-box h1 {
-    color: var(--text-dark);
+    color: #F4F7FE;
 }
 
 [data-theme="dark"] .input-icon-wrap .input-icon {
@@ -1196,8 +1239,4 @@ input[type="email"]:focus {
 
 [data-theme="dark"] ::placeholder {
     color: rgba(255, 255, 255, 0.4) !important;
-}
-
-[data-theme="dark"] .auth-panel-right {
-    background-color: var(--card-bg);
 }
