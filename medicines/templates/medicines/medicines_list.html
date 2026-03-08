@@ -269,25 +269,27 @@
                 <p class="card-text">
                     <strong>Manufacturer:</strong> {{ med.manufacturer.name }}
                 </p>
-                {% if user.is_authenticated and med.manufacturer.user == user %}
-                <div class="mb-2">
-                    {% if med.is_paid %}
-                    <span class="badge bg-success small"><i class="bi bi-check-circle me-1"></i>Published</span>
-                    {% else %}
-                    <span class="badge bg-warning text-dark small"><i class="bi bi-hourglass-split me-1"></i>Pending
-                        Payment</span>
+                <div class="mt-auto pt-3 border-top">
+                    {% if user.is_authenticated and med.manufacturer.user == user %}
+                    <div class="mb-2">
+                        {% if med.is_paid %}
+                        <span class="badge bg-success small"><i class="bi bi-check-circle me-1"></i>Published</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark small"><i class="bi bi-hourglass-split me-1"></i>Pending
+                            Payment</span>
+                        {% endif %}
+                    </div>
                     {% endif %}
+                    <div class="mb-3">
+                        <span class="badge bg-warning text-dark">
+                            <i class="bi bi-star-fill me-1"></i>{{ med.rating|floatformat:1 }} / 5.0
+                        </span>
+                    </div>
+                    <a href="{% url 'medicine_detail' med.pk %}"
+                        class="btn custom-bg-primary text-white btn-sm shadow-sm"
+                        style="border-radius: var(--radius-sm); font-weight: 600; padding: 0.5rem 1rem; width: fit-content;">View
+                        Details &rarr;</a>
                 </div>
-                {% endif %}
-                <div class="mb-3">
-                    <span class="badge bg-warning text-dark">
-                        <i class="bi bi-star-fill me-1"></i>{{ med.rating|floatformat:1 }} / 5.0
-                    </span>
-                </div>
-                <a href="{% url 'medicine_detail' med.pk %}"
-                    class="btn custom-bg-primary text-white btn-sm mt-auto shadow-sm"
-                    style="border-radius: var(--radius-sm); font-weight: 600; padding: 0.5rem 1rem; width: fit-content;">View
-                    Details &rarr;</a>
             </div>
         </div>
     </div>
