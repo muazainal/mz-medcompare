@@ -85,8 +85,6 @@ DATABASES = {
     }
 }
 
-import os
-
 if os.getenv('DB_NAME'):
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
