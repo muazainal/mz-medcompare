@@ -65,7 +65,7 @@
             </a>
             <form action="{% url 'checkout_cart' %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-success fw-bold shadow-sm px-4 btn-hover-transform">
+                <button type="submit" class="btn custom-bg-primary fw-bold shadow-sm px-4 btn-hover-transform">
                     Checkout with Stripe <i class="bi bi-chevron-right ms-2"></i>
                 </button>
             </form>
