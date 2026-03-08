@@ -1085,3 +1085,91 @@ input[type="email"]:focus {
 .site-footer a:hover {
     text-decoration: underline;
 }
+
+/* =============================================
+   DARK MODE OVERRIDES
+   ============================================= */
+[data-theme="dark"] {
+    --primary: #F4F7FE;
+    --primary-hover: #FFFFFF;
+    --light-bg: #0A1628;
+    --card-bg: #112240;
+    --text-dark: #F4F7FE;
+    --text-muted: #a8b2c1;
+    --border: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 16px 56px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] body {
+    background-color: var(--light-bg);
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(10, 22, 40, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .card {
+    background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] .bg-light {
+    background-color: #1a2a47 !important;
+}
+
+[data-theme="dark"] .text-dark {
+    color: var(--text-dark) !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .btn-nav-outline {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+[data-theme="dark"] .btn-nav-outline:hover {
+    background: var(--primary);
+    color: var(--light-bg);
+}
+
+[data-theme="dark"] .custom-bg-primary {
+    background-color: var(--accent) !important;
+    color: #0A1628 !important;
+}
+
+[data-theme="dark"] .custom-text-primary {
+    color: var(--accent) !important;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] textarea {
+    background-color: #1a2a47;
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .filter-bar,
+[data-theme="dark"] .medicine-card {
+    background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .input-group-text {
+    background-color: #1a2a47 !important;
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-dark) !important;
+}
+
+[data-theme="dark"] .site-footer {
+    background: #050b14;
+    color: rgba(255, 255, 255, 0.4);
+}
