@@ -1120,10 +1120,6 @@ input[type="email"]:focus {
     background-color: #1a2a47 !important;
 }
 
-[data-theme="dark"] .text-dark {
-    color: var(--text-dark) !important;
-}
-
 [data-theme="dark"] .text-muted {
     color: var(--text-muted) !important;
 }
@@ -1161,6 +1157,7 @@ input[type="email"]:focus {
 [data-theme="dark"] .filter-bar,
 [data-theme="dark"] .medicine-card {
     background-color: var(--card-bg);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .input-group-text {

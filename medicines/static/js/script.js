@@ -90,40 +90,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -----------------------------------------------
-    // Dark Mode Toggle
+    // Dark Mode Toggle Switch
     // -----------------------------------------------
     const themeToggle = document.getElementById('theme-toggle');
-    const moonIcon = document.querySelector('.theme-icon-dark');
-    const sunIcon = document.querySelector('.theme-icon-light');
 
     if (themeToggle) {
-        // Initial setup for the button icon based on the HTML attribute
+        // Initial setup for the switch state based on HTML attribute set by FOUC script
         const currentTheme = document.documentElement.getAttribute('data-theme');
         if (currentTheme === 'dark') {
-            moonIcon.classList.add('d-none');
-            sunIcon.classList.remove('d-none');
+            themeToggle.checked = true;
         }
 
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            let newTheme = 'dark';
-
-            if (currentTheme === 'dark') {
-                newTheme = 'light';
-            }
+        themeToggle.addEventListener('change', (e) => {
+            const newTheme = e.target.checked ? 'dark' : 'light';
 
             // Apply new theme
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-
-            // Swap icons
-            if (newTheme === 'dark') {
-                moonIcon.classList.add('d-none');
-                sunIcon.classList.remove('d-none');
-            } else {
-                sunIcon.classList.add('d-none');
-                moonIcon.classList.remove('d-none');
-            }
         });
     }
 
