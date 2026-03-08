@@ -1319,6 +1319,7 @@ input[type="email"]:focus {
 }
 
 [data-theme="dark"] .form-label,
+[data-theme="dark"] .form-text,
 [data-theme="dark"] .auth-form-box h1 {
     color: #F4F7FE;
 }
