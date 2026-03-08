@@ -728,11 +728,10 @@ input[type="email"]:focus {
     z-index: -1;
 }
 
-/* Unified Glass Panel container */
+/* Unified Glass Panel containers */
 .auth-glass-panel,
 .glass-container {
     display: flex;
-    flex-direction: row;
     width: 100%;
     max-width: 960px;
     background: rgba(255, 255, 255, 0.35);
@@ -742,6 +741,14 @@ input[type="email"]:focus {
     border-radius: 24px;
     box-shadow: 0 16px 40px rgba(10, 22, 40, 0.12);
     overflow: hidden;
+}
+
+.auth-glass-panel {
+    flex-direction: row;
+}
+
+.glass-container {
+    flex-direction: column;
 }
 
 .auth-panel-left {
