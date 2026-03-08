@@ -31,7 +31,17 @@
 <body>
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Med<span>Compare</span></a>
+            <a class="navbar-brand me-3" href="{% url 'home' %}">Med<span>Compare</span></a>
+
+            <!-- Dark Mode Toggle (Left) -->
+            <div class="form-check form-switch mb-0 d-flex align-items-center me-auto">
+                <input class="form-check-input mt-0 me-2" type="checkbox" role="switch" id="theme-toggle"
+                    style="cursor: pointer; width: 2.5rem; height: 1.25rem;">
+                <label class="form-check-label text-muted d-flex align-items-center" for="theme-toggle"
+                    style="cursor: pointer;">
+                    <i class="bi bi-moon-stars-fill"></i>
+                </label>
+            </div>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -41,17 +51,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
-                    <!-- Toggle Switch -->
-                    <li class="nav-item me-3">
-                        <div class="form-check form-switch mb-0 d-flex align-items-center">
-                            <input class="form-check-input mt-0 me-2" type="checkbox" role="switch" id="theme-toggle"
-                                style="cursor: pointer; width: 2.5rem; height: 1.25rem;">
-                            <label class="form-check-label text-muted d-flex align-items-center" for="theme-toggle"
-                                style="cursor: pointer;">
-                                <i class="bi bi-moon-stars-fill"></i>
-                            </label>
-                        </div>
-                    </li>
+
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'submit_medicine' %}">Submit Medicine</a>
