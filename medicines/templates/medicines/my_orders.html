@@ -60,8 +60,8 @@
                 </div>
             </div>
             <div class="card-footer border-top-0 d-flex justify-content-between align-items-center p-4">
-                <a href="{% url 'home' %}" class="btn btn-outline-secondary px-4 py-2">
-                    <i class="bi bi-arrow-left me-2"></i> Continue Shopping
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary px-4 py-2 rounded-pill">
+                    <i class="bi bi-arrow-left me-2"></i> Back to Medicine List
                 </a>
                 <form action="{% url 'checkout_cart' %}" method="POST">
                     {% csrf_token %}
@@ -75,7 +75,10 @@
         <div class="card shadow-sm border-0 mb-5"
             style="border-left: 5px solid #0d6efd !important; border-radius: 12px;">
             <div class="card-body p-4 text-center">
-                <h5 class="text-muted mb-0">Your cart is currently empty.</h5>
+                <h5 class="text-muted mb-3">Your cart is currently empty.</h5>
+                <a href="{% url 'home' %}" class="btn custom-bg-primary px-4 py-2 fw-bold rounded-pill">
+                    <i class="bi bi-list-ul me-2"></i> Back to Medicine List
+                </a>
             </div>
         </div>
         {% endif %}
@@ -124,7 +127,10 @@
         {% else %}
         <div class="card shadow-sm border-0" style="border-radius: 12px;">
             <div class="card-body p-4 text-center">
-                <p class="text-muted mb-0">You haven't placed any orders yet.</p>
+                <p class="text-muted mb-3">You haven't placed any orders yet.</p>
+                <a href="{% url 'home' %}" class="btn btn-outline-primary px-4 py-2 fw-bold rounded-pill">
+                    <i class="bi bi-list-ul me-2"></i> Browse Medicines
+                </a>
             </div>
         </div>
         {% endif %}
