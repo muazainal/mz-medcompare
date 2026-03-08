@@ -111,8 +111,9 @@
                                     </a>
                                 </td>
                                 <td><span class="badge custom-bg-primary">£{{ order.amount }}</span></td>
-                                <td class="pe-4 text-end text-muted small">{{ order.shipping_address|default:"Not
-                                    provided" }}</td>
+                                <td class="pe-4 text-end text-muted small">
+                                    {{ order.shipping_address|default:"Not provided" }}
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
