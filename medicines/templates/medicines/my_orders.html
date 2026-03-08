@@ -7,7 +7,7 @@
     <div class="col-md-10">
 
         <!-- CART SECTION -->
-        <h2 class="mb-4 text-primary fw-bold">
+        <h2 class="mb-4 fw-bold" style="color: var(--primary);">
             <i class="bi bi-cart3 me-2"></i> Cart
         </h2>
 
@@ -51,7 +51,8 @@
                         <tfoot class="table-light">
                             <tr>
                                 <td colspan="3" class="text-end fw-bold ps-4 py-3 fs-5">Total:</td>
-                                <td colspan="2" class="fw-bold fs-5 text-primary py-3">£{{ total_price|floatformat:2 }}
+                                <td colspan="2" class="fw-bold fs-5 py-3" style="color: var(--accent);">£{{
+                                    total_price|floatformat:2 }}
                                 </td>
                             </tr>
                         </tfoot>
@@ -64,7 +65,7 @@
                 </a>
                 <form action="{% url 'checkout_cart' %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-success fw-bold shadow-sm px-4 btn-hover-transform">
+                    <button type="submit" class="btn custom-bg-primary fw-bold shadow-sm px-4 btn-hover-transform">
                         Checkout with Stripe <i class="bi bi-chevron-right ms-2"></i>
                     </button>
                 </form>
@@ -80,7 +81,7 @@
         {% endif %}
 
         <!-- PAST ORDERS SECTION -->
-        <h2 class="mb-4 text-secondary fw-bold">
+        <h2 class="mb-4 fw-bold" style="color: var(--primary);">
             <i class="bi bi-clock-history me-2"></i> Order History
         </h2>
 
@@ -109,7 +110,7 @@
                                         {{ order.medicine.name }}
                                     </a>
                                 </td>
-                                <td><span class="badge bg-success">£{{ order.amount }}</span></td>
+                                <td><span class="badge custom-bg-primary">£{{ order.amount }}</span></td>
                                 <td class="pe-4 text-end text-muted small">{{ order.shipping_address|default:"Not
                                     provided" }}</td>
                             </tr>

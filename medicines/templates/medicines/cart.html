@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-10">
-        <h2 class="mb-4 text-primary fw-bold">
+        <h2 class="mb-4 fw-bold" style="color: var(--primary);">
             <i class="bi bi-cart3 me-2"></i> Your Shopping Cart
         </h2>
 
@@ -49,7 +49,8 @@
                         <tfoot class="table-light">
                             <tr>
                                 <td colspan="3" class="text-end fw-bold ps-4 py-3 fs-5">Total:</td>
-                                <td colspan="2" class="fw-bold fs-5 text-primary py-3">£{{ total_price|floatformat:2 }}
+                                <td colspan="2" class="fw-bold fs-5 py-3" style="color: var(--accent);">£{{
+                                    total_price|floatformat:2 }}
                                 </td>
                             </tr>
                         </tfoot>
