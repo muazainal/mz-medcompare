@@ -48,9 +48,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    {% if request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
+                    {% endif %}
 
                     {% if user.is_authenticated %}
                     <li class="nav-item">
