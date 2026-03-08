@@ -9,7 +9,7 @@
             style="border-radius: 12px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
             <div class="card-body p-5">
                 <div class="text-center mb-4">
-                    <h2 class="fw-bold text-primary">Submit New Medicine</h2>
+                    <h2 class="fw-bold custom-text-primary">Submit New Medicine</h2>
                     <p class="text-muted">Register a new product with verified lab reports</p>
                 </div>
 
@@ -52,7 +52,8 @@
 
                         <div class="col-12 mt-5">
                             <button type="submit"
-                                class="btn btn-primary w-100 py-3 fw-bold shadow-sm rounded-pill transition">
+                                class="btn custom-bg-primary text-white w-100 py-3 fw-bold shadow-sm rounded-pill transition"
+                                style="border: none;">
                                 <i class="bi bi-cloud-arrow-up me-2"></i> Publish Medicine
                             </button>
                             <a href="{% url 'home' %}"
@@ -72,9 +73,9 @@
         transition: all 0.3s ease;
     }
 
-    .btn-primary:hover {
+    .btn.custom-bg-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3) !important;
+        box-shadow: 0 4px 15px rgba(10, 22, 40, 0.3) !important;
     }
 
     .border-dashed {
