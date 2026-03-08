@@ -244,9 +244,9 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="col-md-1 d-flex align-items-end">
+            <div class="col-md-1 d-grid">
                 <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-filter"></i>
+                    <span class="d-md-none me-2">Apply Filters</span><i class="bi bi-filter"></i>
                 </button>
             </div>
         </form>
@@ -285,9 +285,12 @@
                             <i class="bi bi-star-fill me-1"></i>{{ med.rating|floatformat:1 }} / 5.0
                         </span>
                     </div>
-                    <a href="{% url 'medicine_detail' med.pk %}" class="btn custom-bg-primary btn-sm shadow-sm"
-                        style="border-radius: var(--radius-sm); font-weight: 600; padding: 0.5rem 1rem; width: fit-content;">View
-                        Details &rarr;</a>
+                    <div class="d-grid d-sm-block mt-3">
+                        <a href="{% url 'medicine_detail' med.pk %}"
+                            class="btn custom-bg-primary btn-sm shadow-sm rounded-pill px-4 py-2 fw-bold">
+                            View Details <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

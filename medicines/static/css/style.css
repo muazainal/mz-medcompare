@@ -1142,6 +1142,15 @@ input[type="email"]:focus {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Fix navbar toggler visibility in dark mode */
+[data-theme="dark"] .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="dark"] .navbar-toggler-icon {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
 [data-theme="dark"] .bg-white,
 [data-theme="dark"] .card {
     background-color: var(--card-bg) !important;
@@ -1360,4 +1369,41 @@ input[type="email"]:focus {
     background-color: rgba(13, 110, 253, 0.15) !important;
     color: #74c0fc !important;
     border: 1px solid rgba(13, 110, 253, 0.3) !important;
+}
+
+/* =============================================
+   MOBILE RESPONSIVENESS TWEAKS
+   ============================================= */
+@media (max-width: 768px) {
+    .card-body.p-5 {
+        padding: 1.5rem !important;
+    }
+
+    .medicine-detail-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    .gap-2 {
+        gap: 0.5rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-hover-transform {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .d-flex.gap-2 {
+        flex-direction: column;
+    }
+
+    .role-toggle {
+        flex-direction: column;
+    }
 }
