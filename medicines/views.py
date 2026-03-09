@@ -33,11 +33,13 @@ def home(request):
         search_query = search_query.strip()
         medicines = medicines.filter(
             Q(name__icontains=search_query) |
+            Q(description__icontains=search_query) |
             Q(manufacturer__name__icontains=search_query) |
             Q(formula__icontains=search_query) |
             Q(formulas__name__icontains=search_query) |
             Q(dosage__icontains=search_query)
         ).distinct()
+
 
     # --- FILTER ---
     if rating:
