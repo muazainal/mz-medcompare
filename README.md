@@ -45,7 +45,7 @@
 
 ## Purpose
 
-This project solves challenges in navigating the pharmaceutical market. Users face difficulties retrieving accurate medicine information, comparing similar products, and verifying quality reports. The **Comparative Medicine Database** provides a **centralised, user-friendly platform** where consumers, healthcare professionals, and manufacturers can search, compare, and manage medicine data securely.
+<p style="text-align: justify;">This project solves challenges in navigating the pharmaceutical market. Users face difficulties retrieving accurate medicine information, comparing similar products, and verifying quality reports. The **Comparative Medicine Database** provides a **centralised, user-friendly platform** where consumers, healthcare professionals, and manufacturers can search, compare, and manage medicine data securely.</p>
 
 ---
 
