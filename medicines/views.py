@@ -30,22 +30,28 @@ def home(request):
 
     # --- SEARCH ---
     if search_query:
+        search_query = search_query.strip()
         medicines = medicines.filter(
             Q(name__icontains=search_query) |
             Q(manufacturer__name__icontains=search_query) |
             Q(formula__icontains=search_query) |
-            Q(formulas__name__icontains=search_query)
+            Q(formulas__name__icontains=search_query) |
+            Q(dosage__icontains=search_query)
         ).distinct()
 
     # --- FILTER ---
     if rating:
+        rating = rating.strip()
         medicines = medicines.filter(rating__gte=rating)
 
     # --- SORT ---
-    if sort == 'price_asc':
-        medicines = medicines.order_by('price')
-    elif sort == 'price_desc':
-        medicines = medicines.order_by('-price')
+    if sort:
+        sort = sort.strip()
+        if sort == 'price_asc':
+            medicines = medicines.order_by('price')
+        elif sort == 'price_desc':
+            medicines = medicines.order_by('-price')
+
 
     # --- Render Template ---
     return render(
