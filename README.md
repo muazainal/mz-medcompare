@@ -1,8 +1,13 @@
 <h1 align="center">💊 Comparative Medicine Database</h1>
 
 <p align="center">
+  <img src="medicines/static/images/all-devices-black.png" alt="Comparative Medicine Database Dashboard on all devices" width="800">
+</p>
+
+<p align="center">
   <em>A full-stack web application for searchable, comparable, and verified medicine information</em>
 </p>
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen" alt="Status">
