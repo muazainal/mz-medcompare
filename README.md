@@ -1,7 +1,7 @@
 <h1 align="center">💊 Comparative Medicine Database</h1>
 
 <p align="center">
-  <img src="medicines/static/images/all-devices-black.png" alt="Comparative Medicine Database Dashboard on all devices" width="800">
+  <img src="Screenshots/all-devices-black.png" alt="Comparative Medicine Database Dashboard on all devices" width="800">
 </p>
 
 <p align="center">
@@ -37,6 +37,8 @@
 - [Core Features](ERD.md#core-features)
 - [Planned Updates](ERD.md#planned-updates)
 - [Contact](#contact)
+- [Screenshots](#screenshots)
+- [AI Declaration](#ai-declaration)
 - [License](#license)
 
 ---
@@ -108,6 +110,18 @@ python manage.py runserver
 - **Developer:** Muaz Zainal
 - **Email:** muazainal@live.com
 - **GitHub:** [mz-medcompare](https://github.com/muazainal/mz-medcompare)
+
+---
+
+## Screenshots
+
+You can find more screenshots of the application, including light and dark mode versions, in the [Screenshots](Screenshots/) folder.
+
+---
+
+## AI Declaration
+
+I have used AI to produce and help me as an augmented AI in the development of this project. AI assisted in various tasks including code generation, debugging, and architectural planning to enhance productivity and code quality.
 
 ---
 
