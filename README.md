@@ -121,9 +121,9 @@ You can find more screenshots of the application, including light and dark mode 
 
 ## AI Declaration
 
-<p align="center">I acknowledge the use of Artificial Intelligence (AI) tools as an assistive resource during the development of this project. AI was used to support activities such as code generation, debugging, concept explanation, and architectural planning.</p>
+<p align="justify">I acknowledge the use of Artificial Intelligence (AI) tools as an assistive resource during the development of this project. AI was used to support activities such as code generation, debugging, concept explanation, and architectural planning.</p>
 
-<p align="center">All AI-generated outputs were critically reviewed, tested, and modified where necessary. The final implementation, design decisions, integration, and validation of the system were completed by me. AI was used solely as a productivity aid and did not replace my own understanding or responsibility for the work submitted.</p>  
+<p align="justify">All AI-generated outputs were critically reviewed, tested, and modified where necessary. The final implementation, design decisions, integration, and validation of the system were completed by me. AI was used solely as a productivity aid and did not replace my own understanding or responsibility for the work submitted.</p>  
 
 ---
 
