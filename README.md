@@ -45,7 +45,7 @@
 
 ## Purpose
 
-<p style="text-align: justify;">This project solves challenges in navigating the pharmaceutical market. Users face difficulties retrieving accurate medicine information, comparing similar products, and verifying quality reports. The Comparative Medicine Database provides a centralised, user-friendly platform where consumers, healthcare professionals, and manufacturers can search, compare, and manage medicine data securely.</p>
+<p align="center">This project solves challenges in navigating the pharmaceutical market. Users face difficulties retrieving accurate medicine information, comparing similar products, and verifying quality reports. The Comparative Medicine Database provides a centralised, user-friendly platform where consumers, healthcare professionals, and manufacturers can search, compare, and manage medicine data securely.</p>
 
 ---
 
@@ -121,7 +121,9 @@ You can find more screenshots of the application, including light and dark mode 
 
 ## AI Declaration
 
-I have used AI to produce and help me as an augmented AI in the development of this project. AI assisted in various tasks including code generation, debugging, and architectural planning to enhance productivity and code quality.
+<p align="center">I acknowledge the use of Artificial Intelligence (AI) tools as an assistive resource during the development of this project. AI was used to support activities such as code generation, debugging, concept explanation, and architectural planning.</p>
+
+<p align="center">All AI-generated outputs were critically reviewed, tested, and modified where necessary. The final implementation, design decisions, integration, and validation of the system were completed by me. AI was used solely as a productivity aid and did not replace my own understanding or responsibility for the work submitted.</p>  
 
 ---
 
