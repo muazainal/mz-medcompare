@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.contrib import messages
@@ -8,6 +8,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import stripe
+import json
 
 from .models import Medicine, LabReport, Manufacturer, Order
 from .forms import MedicineForm, CustomSignupForm
@@ -229,7 +230,6 @@ def stripe_webhook(request):
     event = None
 
     try:
-        import json
         event = stripe.Event.construct_from(
             json.loads(payload), stripe.api_key
         )
@@ -274,8 +274,6 @@ def stripe_webhook(request):
                     ]
                 
                 shipping_address = ", ".join([p for p in address_parts if p])
-                
-                import json
                 
                 items_to_process = []
                 
@@ -393,7 +391,6 @@ def checkout_cart(request):
         return redirect('my_orders')
 
     try:
-        import json
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             shipping_address_collection={
