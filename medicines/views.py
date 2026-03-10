@@ -203,7 +203,6 @@ def create_checkout_session(request, medicine_id):
 def payment_success(request):
     session_id = request.GET.get('session_id')
     if session_id:
-heroku logs --tail
         try:
             session = stripe.checkout.Session.retrieve(session_id)
             medicine_id = session.metadata.get('medicine_id')
