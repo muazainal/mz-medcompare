@@ -60,7 +60,7 @@ endblock %}
                                 <i class="bi bi-save me-2"></i> {% if edit_mode %}Save Changes{% else %}Publish
                                 Medicine{% endif %}
                             </button>
-                            <a href="{% if edit_mode %}{% url 'medicine_detail' medicine.pk %}{% else %}{% url 'home' %}{% endif %}"
+                            <a href="{% if edit_mode %}{% url cancel_url medicine.pk %}{% else %}{% url cancel_url %}{% endif %}"
                                 class="btn btn-outline-secondary w-100 mt-3 py-2 fw-bold rounded-pill">
                                 <i class="bi bi-x-circle me-2"></i> Cancel
                             </a>

@@ -131,7 +131,8 @@ def submit_medicine(request):
     return render(request, 'medicines/submit_medicine.html', {
         'form': form,
         'edit_mode': False,
-        'medicine': None
+        'medicine': None,
+        'cancel_url': 'home'  # redirect back to list
     })
 
 @login_required
@@ -163,7 +164,8 @@ def edit_medicine(request, pk):
     return render(request, 'medicines/submit_medicine.html', {
         'form': form,
         'edit_mode': True,
-        'medicine': medicine
+        'medicine': medicine,
+        'cancel_url': 'medicine_detail' # custom handle for edit redirect
     })
 
 @login_required
