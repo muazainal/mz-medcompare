@@ -10,7 +10,7 @@ from django.http import HttpResponse
 import stripe
 import json
 
-from .models import Medicine, LabReport, Manufacturer, Order
+from .models import Medicine, LabReport, Manufacturer, Order, Formula
 from .forms import MedicineForm, CustomSignupForm
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -129,6 +129,56 @@ def submit_medicine(request):
     else:
         form = MedicineForm()
     return render(request, 'medicines/submit_medicine.html', {'form': form})
+
+@login_required
+@manufacturer_required
+def edit_medicine(request, pk):
+    try:
+        manufacturer = request.user.manufacturer_profile
+        medicine = get_object_or_404(Medicine, pk=pk, manufacturer=manufacturer)
+    except (Manufacturer.DoesNotExist, Medicine.DoesNotExist):
+        messages.error(request, "Medicine not found or access denied.")
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = MedicineForm(request.POST, request.FILES, instance=medicine)
+        if form.is_valid():
+            medicine = form.save()
+            
+            # Handle Lab Report update if provided
+            pdf = request.FILES.get('lab_report')
+            if pdf:
+                # Optionally delete or keep old reports. Here we just add a new one.
+                LabReport.objects.create(medicine=medicine, pdf_file=pdf)
+
+            messages.success(request, f"'{medicine.name}' has been updated.")
+            return redirect('medicine_detail', pk=medicine.pk)
+    else:
+        form = MedicineForm(instance=medicine)
+    
+    return render(request, 'medicines/submit_medicine.html', {
+        'form': form,
+        'edit_mode': True,
+        'medicine': medicine
+    })
+
+@login_required
+@manufacturer_required
+def delete_medicine(request, pk):
+    try:
+        manufacturer = request.user.manufacturer_profile
+        medicine = get_object_or_404(Medicine, pk=pk, manufacturer=manufacturer)
+    except (Manufacturer.DoesNotExist, Medicine.DoesNotExist):
+        messages.error(request, "Medicine not found or access denied.")
+        return redirect('home')
+
+    if request.method == 'POST':
+        medicine_name = medicine.name
+        medicine.delete()
+        messages.success(request, f"'{medicine_name}' has been deleted.")
+        return redirect('home')
+    
+    return render(request, 'medicines/delete_confirm.html', {'medicine': medicine})
 
 # MY ORDERS & CART
 @login_required
