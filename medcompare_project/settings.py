@@ -28,14 +28,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-hidden-for-safety-replace-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True' # Keep it configurable but let's check it
 
-ALLOWED_HOSTS = ['mz-medcompare-app.herokuapp.com', 'localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['*', '.herokuapp.com']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-    'https://mz-medcompare-app.herokuapp.com',
+    'https://*.herokuapp.com',
 ]
 
 
