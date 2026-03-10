@@ -257,7 +257,7 @@
                     <strong>Manufacturer:</strong> {{ med.manufacturer.name }}
                 </p>
                 <div class="mt-auto pt-3 border-top">
-                    {% if user.is_authenticated and med.manufacturer.user == user %}
+                    {% if user.is_authenticated and med.manufacturer.user == user or user.is_superuser %}
                     <div class="mb-2 d-flex justify-content-between align-items-center">
                         <div>
                             {% if med.is_paid %}

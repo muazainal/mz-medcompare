@@ -12,7 +12,7 @@
                     <h2 class="fw-bold custom-text-primary mb-0">{{ medicine.name }}</h2>
                     <div class="d-flex gap-2">
                         <span class="badge custom-bg-primary rounded-pill px-3 py-2">Medicine</span>
-                        {% if user.is_authenticated and medicine.manufacturer.user == user %}
+                        {% if user.is_authenticated and medicine.manufacturer.user == user or user.is_superuser %}
                         <a href="{% url 'edit_medicine' medicine.pk %}"
                             class="btn btn-sm btn-outline-warning rounded-pill px-3">
                             <i class="bi bi-pencil"></i> Edit
@@ -57,7 +57,7 @@
 
                 <div class="mb-4">
                     <label class="text-muted small fw-bold text-uppercase">Manufacturer</label>
-                    <p class="fs-5">{{ medicine.manufacturer.name }}</p>
+                    <p class="fs-5">{{ medicine.manufacturer.name }} <span class="text-muted small">(@{{ medicine.manufacturer.user.username|default:"System Admin" }})</span></p>
                 </div>
 
                 <div class="mb-4">
