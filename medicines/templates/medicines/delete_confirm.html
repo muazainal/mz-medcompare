@@ -1,0 +1,33 @@
+{% extends 'medicines/base.html' %}
+
+{% block title %}Delete {{ medicine.name }} | MedCompare{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-0" style="border-radius: 15px;">
+            <div class="card-body p-5 text-center">
+                <i class="bi bi-exclamation-triangle-fill text-danger mb-4" style="font-size: 4rem;"></i>
+                <h2 class="fw-bold mb-3">Are you sure?</h2>
+                <p class="text-muted mb-4">
+                    You are about to delete <strong>{{ medicine.name }}</strong>.
+                    This action cannot be undone and will remove all associated data, including lab reports.
+                </p>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill fw-bold">
+                            <i class="bi bi-trash me-2"></i> Confirm Delete
+                        </button>
+                        <a href="{% url 'medicine_detail' medicine.pk %}"
+                            class="btn btn-outline-secondary btn-lg rounded-pill">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
