@@ -128,7 +128,11 @@ def submit_medicine(request):
             return redirect('medicine_detail', pk=medicine.pk)
     else:
         form = MedicineForm()
-    return render(request, 'medicines/submit_medicine.html', {'form': form})
+    return render(request, 'medicines/submit_medicine.html', {
+        'form': form,
+        'edit_mode': False,
+        'medicine': None
+    })
 
 @login_required
 @manufacturer_required
