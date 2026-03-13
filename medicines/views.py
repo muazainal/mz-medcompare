@@ -150,12 +150,17 @@ def submit_medicine(request):
 @login_required
 @manufacturer_required
 def edit_medicine(request, pk):
-    try:
-        manufacturer = request.user.manufacturer_profile
-        medicine = get_object_or_404(Medicine, pk=pk, manufacturer=manufacturer)
-    except (Manufacturer.DoesNotExist, Medicine.DoesNotExist):
-        messages.error(request, "Medicine not found or access denied.")
-        return redirect('home')
+    medicine = get_object_or_404(Medicine, pk=pk)
+    
+    # Permission check: Superuser can edit anything; Manufacturer can only edit their own
+    if not request.user.is_superuser:
+        try:
+            if medicine.manufacturer != request.user.manufacturer_profile:
+                messages.error(request, "Access denied.")
+                return redirect('home')
+        except Manufacturer.DoesNotExist:
+            messages.error(request, "Manufacturer profile required.")
+            return redirect('home')
 
     if request.method == 'POST':
         form = MedicineForm(request.POST, request.FILES, instance=medicine)
@@ -183,12 +188,17 @@ def edit_medicine(request, pk):
 @login_required
 @manufacturer_required
 def delete_medicine(request, pk):
-    try:
-        manufacturer = request.user.manufacturer_profile
-        medicine = get_object_or_404(Medicine, pk=pk, manufacturer=manufacturer)
-    except (Manufacturer.DoesNotExist, Medicine.DoesNotExist):
-        messages.error(request, "Medicine not found or access denied.")
-        return redirect('home')
+    medicine = get_object_or_404(Medicine, pk=pk)
+    
+    # Permission check: Superuser can delete anything; Manufacturer can only delete their own
+    if not request.user.is_superuser:
+        try:
+            if medicine.manufacturer != request.user.manufacturer_profile:
+                messages.error(request, "Access denied.")
+                return redirect('home')
+        except Manufacturer.DoesNotExist:
+            messages.error(request, "Manufacturer profile required.")
+            return redirect('home')
 
     if request.method == 'POST':
         medicine_name = medicine.name
