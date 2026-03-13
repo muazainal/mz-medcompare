@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 navbar.classList.remove('scrolled');
             }
-        });
+        }, { passive: true });
     }
 
     // -----------------------------------------------

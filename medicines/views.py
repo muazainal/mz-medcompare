@@ -54,13 +54,25 @@ def home(request):
             medicines = medicines.order_by('price')
         elif sort == 'price_desc':
             medicines = medicines.order_by('-price')
+    else:
+        # Default sorting to ensure consistent pagination
+        medicines = medicines.order_by('name')
 
+    # --- PAGINATION ---
+    from django.core.paginator import Paginator
+    paginator = Paginator(medicines, 12) # 12 medicines per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     # --- Render Template ---
     return render(
         request,
         'medicines/medicines_list.html',
-        {'medicines': medicines}
+        {
+            'medicines': page_obj,
+            'is_paginated': page_obj.has_other_pages(),
+            'page_obj': page_obj,
+        }
     )
 
 # DETAIL PAGE

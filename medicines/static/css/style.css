@@ -136,6 +136,7 @@ body {
     filter: blur(80px);
     opacity: 0.18;
     animation: blobFloat 8s ease-in-out infinite alternate;
+    will-change: transform;
 }
 
 .hero-blob-1 {
@@ -698,8 +699,7 @@ input[type="email"]:focus {
 /* =============================================
    AUTH PAGES — SPLIT LAYOUT + FULL PAGES
    ============================================= */
-.auth-wrapper,
-.full-page-wrapper {
+.auth-wrapper {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -714,13 +714,17 @@ input[type="email"]:focus {
 }
 
 .full-page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
     align-items: flex-start;
-    padding-top: 5rem;
-    /* ensure clears navbar */
+    padding: 5rem 2rem 2rem;
+    position: relative;
+    background-color: var(--light-bg);
+    z-index: 1;
 }
 
-.auth-wrapper::before,
-.full-page-wrapper::before {
+.auth-wrapper::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -1129,10 +1133,16 @@ input[type="email"]:focus {
 
 .site-footer a {
     color: var(--accent);
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .site-footer a:hover {
+    text-decoration: none;
+}
+
+/* Ensure links in text are distinguishable */
+p a:not(.btn),
+.card-text a:not(.btn) {
     text-decoration: underline;
 }
 
@@ -1289,13 +1299,11 @@ input[type="email"]:focus {
 }
 
 /* Overrides for Dark Mode */
-[data-theme="dark"] .auth-wrapper,
-[data-theme="dark"] .full-page-wrapper {
+[data-theme="dark"] .auth-wrapper {
     background-image: url('../images/auth_bg_dark.png');
 }
 
-[data-theme="dark"] .auth-wrapper::before,
-[data-theme="dark"] .full-page-wrapper::before {
+[data-theme="dark"] .auth-wrapper::before {
     background: rgba(10, 22, 40, 0.45);
 }
 
