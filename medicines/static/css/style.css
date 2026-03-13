@@ -699,14 +699,15 @@ input[type="email"]:focus {
 /* =============================================
    AUTH PAGES — SPLIT LAYOUT + FULL PAGES
    ============================================= */
-.auth-wrapper {
+.auth-wrapper,
+.full-page-wrapper {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2rem;
     position: relative;
-    background-image: url('../images/auth_bg_light.png');
+    background-image: url('../images/auth_bg_light.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -714,17 +715,12 @@ input[type="email"]:focus {
 }
 
 .full-page-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
     align-items: flex-start;
-    padding: 5rem 2rem 2rem;
-    position: relative;
-    background-color: var(--light-bg);
-    z-index: 1;
+    padding-top: 5rem;
 }
 
-.auth-wrapper::before {
+.auth-wrapper::before,
+.full-page-wrapper::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -1299,11 +1295,13 @@ p a:not(.btn),
 }
 
 /* Overrides for Dark Mode */
-[data-theme="dark"] .auth-wrapper {
-    background-image: url('../images/auth_bg_dark.png');
+[data-theme="dark"] .auth-wrapper,
+[data-theme="dark"] .full-page-wrapper {
+    background-image: url('../images/auth_bg_dark.webp');
 }
 
-[data-theme="dark"] .auth-wrapper::before {
+[data-theme="dark"] .auth-wrapper::before,
+[data-theme="dark"] .full-page-wrapper::before {
     background: rgba(10, 22, 40, 0.45);
 }
 
