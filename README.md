@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://mz-medcompare-app-9e3f302ecb1b.herokuapp.com/accounts/login/">Live Demo</a>
+  <a href="https://mz-medcompare-app-9e3f302ecb1b.herokuapp.com/">Live Demo</a>
 </p>
 
 ---
