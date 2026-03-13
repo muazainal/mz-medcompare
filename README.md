@@ -1,10 +1,6 @@
 <h1 align="center">💊 Comparative Medicine Database</h1>
 
 <p align="center">
-  <img src="Screenshots/all-devices-black.png" alt="Comparative Medicine Database Dashboard on all devices" width="800">
-</p>
-
-<p align="center">
   <em>A full-stack web application for searchable, comparable, and verified medicine information</em>
 </p>
 
@@ -37,7 +33,7 @@
 - [Core Features](ERD.md#core-features)
 - [Contact](#contact)
 - [Performance & Design](DESIGN_PERFORMANCE.md)
-- [Screenshots](#screenshots)
+- [Screenshots](SCREENSHOTS.md)
 - [AI Declaration](#ai-declaration)
 - [License](#license)
 
@@ -121,7 +117,7 @@ For detailed information on our performance optimisations, Lighthouse audit resu
 
 ## Screenshots
 
-You can find more screenshots of the application, including light and dark mode versions, in the [Screenshots](Screenshots/) folder.
+For a full gallery of application screenshots, including light mode, dark mode, and multi-device views, please refer to the **[Screenshots Documentation](SCREENSHOTS.md)**.
 
 ---
 
