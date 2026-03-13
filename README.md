@@ -35,8 +35,8 @@
 - [ERD Explanation](ERD.md#erd-explanation)
 - [User Roles](ERD.md#user-roles)
 - [Core Features](ERD.md#core-features)
-- [Planned Updates](ERD.md#planned-updates)
 - [Contact](#contact)
+- [Performance & Design](DESIGN_PERFORMANCE.md)
 - [Screenshots](#screenshots)
 - [AI Declaration](#ai-declaration)
 - [License](#license)
@@ -115,25 +115,7 @@ python manage.py runserver
 
 ## Performance & Design
 
-### Lighthouse Reports
-We prioritise performance and accessibility to ensure a seamless experience across all devices.
-
-#### Mobile Performance
-<p align="center">
-  <img src="medicines/static/images/Lighthouse Report/Mobile/Screenshot 2026-03-13 092757.png" alt="Lighthouse Mobile Report" width="600">
-</p>
-
-#### Web Performance
-<p align="center">
-  <img src="medicines/static/images/Lighthouse Report/Web/Screenshot 2026-03-13 081609.png" alt="Lighthouse Web Report" width="600">
-</p>
-
-### Colour Palette
-The application uses a modern, healthcare-inspired colour palette designed for clarity and a premium feel.
-
-<p align="center">
-  <img src="medicines/static/images/Colour Palette/med-compare-color-palette.png" alt="MedCompare Colour Palette" width="600">
-</p>
+For detailed information on our performance optimisations, Lighthouse audit results, and our design system (including colour palette), please refer to the **[Performance & Design Documentation](DESIGN_PERFORMANCE.md)**.
 
 ---
 
