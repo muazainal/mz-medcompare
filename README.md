@@ -113,6 +113,30 @@ python manage.py runserver
 
 ---
 
+## Performance & Design
+
+### Lighthouse Reports
+We prioritise performance and accessibility to ensure a seamless experience across all devices.
+
+#### Mobile Performance
+<p align="center">
+  <img src="medicines/static/images/Lighthouse Report/Mobile/Screenshot 2026-03-13 092757.png" alt="Lighthouse Mobile Report" width="600">
+</p>
+
+#### Web Performance
+<p align="center">
+  <img src="medicines/static/images/Lighthouse Report/Web/Screenshot 2026-03-13 081609.png" alt="Lighthouse Web Report" width="600">
+</p>
+
+### Colour Palette
+The application uses a modern, healthcare-inspired colour palette designed for clarity and a premium feel.
+
+<p align="center">
+  <img src="medicines/static/images/Colour Palette/med-compare-color-palette.png" alt="MedCompare Colour Palette" width="600">
+</p>
+
+---
+
 ## Screenshots
 
 You can find more screenshots of the application, including light and dark mode versions, in the [Screenshots](Screenshots/) folder.
