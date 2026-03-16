@@ -26,6 +26,7 @@ urlpatterns = [
     path('purchase-cancel/', views.purchase_cancel, name='purchase_cancel'),
     path('my-orders/', views.my_orders, name='my_orders'),
     path('buy/<int:medicine_id>/', views.create_purchase_session, name='create_purchase_session'),
+    path('legal/disclaimer/', views.disclaimer, name='disclaimer'),
 ]
 
 # Serve media files during development

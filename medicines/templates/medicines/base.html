@@ -135,7 +135,23 @@
 
     <footer class="site-footer">
         <div class="container">
+            {% if request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' %}
+            <div class="footer-disclaimer mb-4 text-center mx-auto" style="max-width: 900px; font-size: 0.85rem; line-height: 1.6; opacity: 0.8;">
+                <p class="mb-2">
+                    This website provides medicine information for educational and comparison purposes only and does not constitute medical advice, diagnosis, or treatment. 
+                    Users must consult a qualified healthcare professional before making any medical decisions. 
+                    This platform is not a pharmacy, does not sell medicines, and is not regulated by the UK Medicines and Healthcare products Regulatory Agency (MHRA). 
+                    Limited personal data may be processed in accordance with UK GDPR for functionality and academic research purposes. 
+                    By using this website, you accept that all information is used at your own risk. 
+                </p>
+                <a href="{% url 'disclaimer' %}" class="text-accent fw-bold">Read full Terms & Medical Disclaimer</a>
+            </div>
+            <div class="footer-bottom border-top pt-3 mt-3" style="border-color: rgba(255,255,255,0.1) !important;">
+                &copy; 2026 <a href="{% url 'home' %}">MedCompare</a>. All rights reserved.
+            </div>
+            {% else %}
             &copy; 2026 <a href="{% url 'home' %}">MedCompare</a>. All rights reserved.
+            {% endif %}
         </div>
     </footer>
 

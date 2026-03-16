@@ -1177,6 +1177,14 @@ input[type="email"]:focus {
     text-decoration: none;
 }
 
+.text-accent {
+    color: var(--accent) !important;
+}
+
+.footer-disclaimer a:hover {
+    color: var(--accent-dark) !important;
+}
+
 /* Ensure links in text are distinguishable */
 p a:not(.btn),
 .card-text a:not(.btn) {

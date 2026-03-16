@@ -587,3 +587,6 @@ def purchase_success(request):
 def purchase_cancel(request):
     messages.warning(request, "Order was cancelled.")
     return redirect('home')
+
+def disclaimer(request):
+    return render(request, 'medicines/disclaimer.html')
