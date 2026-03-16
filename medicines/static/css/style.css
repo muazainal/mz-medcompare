@@ -605,6 +605,48 @@ body {
 }
 
 /* =============================================
+   FACETED SIDEBAR
+   ============================================= */
+.filter-sidebar {
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: var(--radius);
+}
+
+.filter-sidebar .form-label {
+    letter-spacing: 0.5px;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.filter-sidebar .form-check-input:checked {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.filter-sidebar .form-check-label {
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filter-sidebar .form-check-input {
+    width: 1.15em;
+    height: 1.15em;
+    margin-top: 0.2em;
+    cursor: pointer;
+}
+
+/* Custom Soft Primary Badge */
+.bg-soft-primary {
+    background: rgba(10, 22, 40, 0.05);
+    border: 1px solid rgba(10, 22, 40, 0.08);
+}
+
+/* =============================================
    GLASS CARDS & MEDICINES LIST
    ============================================= */
 .filter-bar,
@@ -1305,6 +1347,7 @@ p a:not(.btn),
     color: var(--text-dark);
 }
 
+[data-theme="dark"] .filter-sidebar,
 [data-theme="dark"] .filter-bar,
 [data-theme="dark"] .medicine-card,
 [data-theme="dark"] .medicine-detail-card,
