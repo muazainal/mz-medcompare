@@ -26,6 +26,7 @@ class Medicine(models.Model):
     dosage = models.CharField(max_length=255, blank=True, null=True)
     formula = models.CharField(max_length=255, blank=True, null=True)
     rating = models.FloatField(default=0)
+    category = models.CharField(max_length=100, blank=True, null=True, default='General')
     manufacturer = models.ForeignKey(
         Manufacturer,
         on_delete=models.CASCADE,

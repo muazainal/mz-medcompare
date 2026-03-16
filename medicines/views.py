@@ -19,9 +19,16 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @login_required
 def home(request):
     # --- Get query parameters from URL ---
-    search_query = request.GET.get('search', '')  # search by medicine, manufacturer, formula
-    rating = request.GET.get('rating')           # filter by rating
-    sort = request.GET.get('sort')               # sort by price
+    search_query = request.GET.get('search', '')
+    rating_filter = request.GET.get('rating')
+    sort = request.GET.get('sort')
+    
+    # Faceted Filters
+    manufacturer_filter = request.GET.get('manufacturer')
+    formula_filter = request.GET.get('formula')
+    dosage_filter = request.GET.get('dosage')
+    category_filter = request.GET.get('category')
+    price_range = request.GET.get('price_range')
 
     # --- Base Queryset ---
     if hasattr(request.user, 'manufacturer_profile'):
@@ -29,7 +36,7 @@ def home(request):
     else:
         medicines = Medicine.objects.filter(is_paid=True)
 
-    # --- SEARCH ---
+    # --- APPLY FILTERS ---
     if search_query:
         search_query = search_query.strip()
         medicines = medicines.filter(
@@ -41,11 +48,30 @@ def home(request):
             Q(dosage__icontains=search_query)
         ).distinct()
 
+    if rating_filter:
+        medicines = medicines.filter(rating__gte=float(rating_filter))
 
-    # --- FILTER ---
-    if rating:
-        rating = rating.strip()
-        medicines = medicines.filter(rating__gte=rating)
+    if manufacturer_filter:
+        medicines = medicines.filter(manufacturer__name=manufacturer_filter)
+
+    if formula_filter:
+        medicines = medicines.filter(formula=formula_filter)
+
+    if dosage_filter:
+        medicines = medicines.filter(dosage=dosage_filter)
+
+    if category_filter:
+        medicines = medicines.filter(category=category_filter)
+
+    if price_range:
+        if price_range == '0-10':
+            medicines = medicines.filter(price__lte=10)
+        elif price_range == '10-50':
+            medicines = medicines.filter(price__gt=10, price__lte=50)
+        elif price_range == '50-100':
+            medicines = medicines.filter(price__gt=50, price__lte=100)
+        elif price_range == '100+':
+            medicines = medicines.filter(price__gt=100)
 
     # --- SORT ---
     if sort:
@@ -55,16 +81,27 @@ def home(request):
         elif sort == 'price_desc':
             medicines = medicines.order_by('-price')
     else:
-        # Default sorting to ensure consistent pagination
         medicines = medicines.order_by('name')
+
+    # --- GET UNIQUE VALUES FOR FACETS ---
+    # We use the base queryset (or the search-filtered one) to get available facets
+    # For simplicity, we'll use all medicines the user can see
+    if hasattr(request.user, 'manufacturer_profile'):
+        base_meds = Medicine.objects.filter(Q(is_paid=True) | Q(manufacturer=request.user.manufacturer_profile))
+    else:
+        base_meds = Medicine.objects.filter(is_paid=True)
+
+    manufacturers = Manufacturer.objects.filter(medicines__in=base_meds).distinct().order_by('name')
+    formulas = base_meds.values_list('formula', flat=True).distinct().exclude(formula__isnull=True).exclude(formula='').order_by('formula')
+    dosages = base_meds.values_list('dosage', flat=True).distinct().exclude(dosage__isnull=True).exclude(dosage='').order_by('dosage')
+    categories = base_meds.values_list('category', flat=True).distinct().exclude(category__isnull=True).exclude(category='').order_by('category')
 
     # --- PAGINATION ---
     from django.core.paginator import Paginator
-    paginator = Paginator(medicines, 12) # 12 medicines per page
+    paginator = Paginator(medicines, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # --- Render Template ---
     return render(
         request,
         'medicines/medicines_list.html',
@@ -72,6 +109,13 @@ def home(request):
             'medicines': page_obj,
             'is_paginated': page_obj.has_other_pages(),
             'page_obj': page_obj,
+            # Facet data
+            'manufacturers': manufacturers,
+            'formulas': formulas,
+            'dosages': dosages,
+            'categories': categories,
+            # Current filters
+            'current_filters': request.GET,
         }
     )
 

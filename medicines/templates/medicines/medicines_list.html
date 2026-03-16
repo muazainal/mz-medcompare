@@ -179,159 +179,262 @@
             <i class="bi bi-person-plus-fill"></i> Create Free Account
         </a>
     </div>
-</section>
-
-{% else %}
+</se{% else %}
 
 {# ===================== MEDICINES LIST (logged in) ===================== #}
-<h1 class="fw-bold mb-4" style="font-size:1.75rem; letter-spacing:-0.5px;">All Medicines</h1>
-
-<!-- Search and Filter Form -->
-<div class="filter-bar card shadow-sm mb-5 border-0">
-    <div class="card-body p-4">
-        <form method="get" action="{% url 'home' %}" class="row g-3" id="medicine-filter-form">
-            <!-- Search Keyword -->
-            <div class="col-md-4">
-                <label for="search" class="form-label text-uppercase">Search</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-white border-end-0 text-muted">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input type="text" name="search" id="search" class="form-control border-start-0"
-                        placeholder="Name or Manufacturer" value="{{ request.GET.search }}">
-                </div>
-            </div>
-
-            <!-- Rating Filter -->
-            <div class="col-md-3">
-                <label for="rating" class="form-label text-uppercase">Min Rating</label>
-                <select name="rating" id="rating" class="form-select">
-                    <option value="">Any Rating</option>
-                    <option value="4" {% if request.GET.rating == "4" %}selected{% endif %}>4+ Stars</option>
-                    <option value="3" {% if request.GET.rating == "3" %}selected{% endif %}>3+ Stars</option>
-                    <option value="2" {% if request.GET.rating == "2" %}selected{% endif %}>2+ Stars</option>
-                </select>
-            </div>
-
-            <!-- Price Sort -->
-            <div class="col-md-3">
-                <label for="sort" class="form-label text-uppercase">Sort By Price</label>
-                <select name="sort" id="sort" class="form-select">
-                    <option value="">Default</option>
-                    <option value="price_asc" {% if request.GET.sort == "price_asc" %}selected{% endif %}>Lowest First
-                    </option>
-                    <option value="price_desc" {% if request.GET.sort == "price_desc" %}selected{% endif %}>Highest First
-                    </option>
-                </select>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="col-md-2 d-flex align-items-end">
-                <button type="submit"
-                    class="btn btn-primary w-100 mb-0 d-flex align-items-center justify-content-center"
-                    aria-label="Apply search and filters"
-                    style="height: 46px;">
-                    <span class="d-none d-lg-inline me-2">Apply</span><i class="bi bi-filter" aria-hidden="true"></i>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="row">
-    {% for med in medicines %}
-    <div class="col-md-4 mb-4">
-        <div class="medicine-card card h-100 p-3">
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title fw-bold" style="color: var(--primary);">{{ med.name }}</h5>
-                <p>
-                    <strong>Formula:</strong><br>
-                    <a href="{% url 'home' %}?search={{ med.formula|urlencode }}"
-                        class="text-muted text-decoration-none">
-                        {{ med.formula }} <i class="bi bi-search small"></i>
-                    </a>
-                </p>
-                <p class="card-text">
-                    <strong>Dosage:</strong> {{ med.dosage }}
-                </p>
-                <p class="card-text">
-                    <strong>Manufacturer:</strong> {{ med.manufacturer.name }}
-                </p>
-                <div class="mt-auto pt-3 border-top">
-                    {% if user.is_authenticated and med.manufacturer.user == user or user.is_superuser %}
-                    <div class="mb-2 d-flex justify-content-between align-items-center">
-                        <div>
-                            {% if med.is_paid %}
-                            <span class="badge bg-success small"><i class="bi bi-check-circle me-1"></i>Published</span>
-                            {% else %}
-                            <span class="badge bg-warning text-dark small"><i
-                                    class="bi bi-hourglass-split me-1"></i>Pending</span>
-                            {% endif %}
-                        </div>
-                        <div class="btn-group">
-                            <a href="{% url 'edit_medicine' med.pk %}" class="btn btn-sm btn-action-edit border-0"
-                                title="Edit">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <a href="{% url 'delete_medicine' med.pk %}" class="btn btn-sm btn-action-delete border-0"
-                                title="Delete">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        </div>
-                    </div>
-                    {% endif %}
-                    <div class="mb-3">
-                        <span class="badge badge-rating rounded-pill">
-                            <i class="bi bi-star-fill me-1"></i>{{ med.rating|floatformat:1 }} / 5.0
+<div class="row g-4">
+    <!-- Faceted Sidebar -->
+    <aside class="col-lg-3">
+        <div class="filter-sidebar card border-0 shadow-sm p-4 sticky-top" style="top: 100px; z-index: 10;">
+            <h5 class="fw-bold mb-4" style="color: var(--primary);">Filter Results</h5>
+            
+            <form method="get" action="{% url 'home' %}" id="faceted-filter-form">
+                <!-- Search -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Search</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search"></i>
                         </span>
-                    </div>
-                    <div class="d-grid mt-3">
-                        <a href="{% url 'medicine_detail' med.pk %}"
-                            class="btn custom-bg-primary shadow-sm rounded-pill px-4 py-2 fw-bold d-flex align-items-center justify-content-center">
-                            View Details <i class="bi bi-arrow-right ms-2"></i>
-                        </a>
+                        <input type="text" name="search" class="form-control border-start-0 ps-0" 
+                               placeholder="Medicine name..." value="{{ request.GET.search }}">
                     </div>
                 </div>
+
+                <!-- Sort (Hidden or visible in sidebar) -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Sort By</label>
+                    <select name="sort" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">Default (Name)</option>
+                        <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                    </select>
+                </div>
+
+                <hr class="my-4 opacity-10">
+
+                <!-- Categories (Radio Buttons) -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Category</label>
+                    <div class="facet-options">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="category" id="cat-all" value="" {% if not request.GET.category %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="cat-all">All Categories</label>
+                        </div>
+                        {% for cat in categories %}
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="category" id="cat-{{ forloop.counter }}" value="{{ cat }}" {% if request.GET.category == cat %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="cat-{{ forloop.counter }}">{{ cat }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Manufacturer (Dropdown) -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Manufacturer</label>
+                    <select name="manufacturer" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">All Manufacturers</option>
+                        {% for m in manufacturers %}
+                        <option value="{{ m.name }}" {% if request.GET.manufacturer == m.name %}selected{% endif %}>{{ m.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Formula (Dropdown) -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Formula</label>
+                    <select name="formula" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">All Formulas</option>
+                        {% for f in formulas %}
+                        <option value="{{ f }}" {% if request.GET.formula == f %}selected{% endif %}>{{ f }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Dosage (Dropdown) -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Dosage</label>
+                    <select name="dosage" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">All Dosages</option>
+                        {% for d in dosages %}
+                        <option value="{{ d }}" {% if request.GET.dosage == d %}selected{% endif %}>{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Price Range (Radio Buttons) -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Price Range</label>
+                    <div class="facet-options">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="price_range" id="price-any" value="" {% if not request.GET.price_range %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="price-any">Any Price</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="price_range" id="price-0-10" value="0-10" {% if request.GET.price_range == '0-10' %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="price-0-10">Under £10</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="price_range" id="price-10-50" value="10-50" {% if request.GET.price_range == '10-50' %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="price-10-50">£10 - £50</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="price_range" id="price-50-100" value="50-100" {% if request.GET.price_range == '50-100' %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="price-50-100">£50 - £100</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="price_range" id="price-100" value="100+" {% if request.GET.price_range == '100+' %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="price-100">£100+</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rating (Radio) -->
+                <div class="mb-4">
+                    <label class="form-label text-uppercase small fw-bold">Min Rating</label>
+                    <div class="facet-options">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="rating" id="rating-any" value="" {% if not request.GET.rating %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="rating-any">Any Rating</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="rating" id="rating-4" value="4" {% if request.GET.rating == '4' %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="rating-4">4+ Stars</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="rating" id="rating-3" value="3" {% if request.GET.rating == '3' %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="rating-3">3+ Stars</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm rounded-pill">Reset All Filters</a>
+                </div>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Results Area -->
+    <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="fw-bold mb-0" style="font-size:1.75rem; letter-spacing:-0.5px;">Medicines</h1>
+            <div class="text-muted small">
+                Showing <strong>{{ page_obj.start_index }}-{{ page_obj.end_index }}</strong> of {{ page_obj.paginator.count }} results
             </div>
         </div>
+
+        <!-- Active Filter Badges -->
+        <div class="mb-4 d-flex flex-wrap gap-2">
+            {% if request.GET.search %}
+            <span class="badge bg-light text-dark border p-2 px-3 rounded-pill fw-normal">
+                Search: "{{ request.GET.search }}" 
+                <a href="?{% for key,val in request.GET.items %}{% if key != 'search' %}{{ key }}={{ val }}&{% endif %}{% endfor %}" class="ms-2 text-danger"><i class="bi bi-x-circle-fill"></i></a>
+            </span>
+            {% endif %}
+            {% if request.GET.category %}
+            <span class="badge bg-light text-dark border p-2 px-3 rounded-pill fw-normal">
+                Category: {{ request.GET.category }}
+                <a href="?{% for key,val in request.GET.items %}{% if key != 'category' %}{{ key }}={{ val }}&{% endif %}{% endfor %}" class="ms-2 text-danger"><i class="bi bi-x-circle-fill"></i></a>
+            </span>
+            {% endif %}
+            {# Add more badges if needed for other facets #}
+        </div>
+
+        <div class="row">
+            {% for med in medicines %}
+            <div class="col-md-6 col-xl-4 mb-4">
+                <div class="medicine-card card h-100 p-3">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title fw-bold mb-0" style="color: var(--primary);">{{ med.name }}</h5>
+                            <span class="text-accent fw-bold">£{{ med.price }}</span>
+                        </div>
+                        <div class="small mb-3">
+                            <span class="badge bg-soft-primary text-primary px-2 py-1" style="background: rgba(10, 22, 40, 0.05);">{{ med.category|default:"General" }}</span>
+                        </div>
+                        <p class="mb-2 small">
+                            <strong>Formula:</strong><br>
+                            <span class="text-muted">{{ med.formula }}</span>
+                        </p>
+                        <p class="card-text small mb-1">
+                            <strong>Dosage:</strong> {{ med.dosage }}
+                        </p>
+                        <p class="card-text small mb-1">
+                            <strong>Manufacturer:</strong> {{ med.manufacturer.name }}
+                        </p>
+                        
+                        <div class="mt-auto pt-3 border-top">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge badge-rating rounded-pill">
+                                    <i class="bi bi-star-fill me-1"></i>{{ med.rating|floatformat:1 }}
+                                </span>
+                                {% if user.is_authenticated and med.manufacturer.user == user or user.is_superuser %}
+                                <div class="btn-group">
+                                    <a href="{% url 'edit_medicine' med.pk %}" class="btn btn-sm btn-action-edit border-0" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="{% url 'delete_medicine' med.pk %}" class="btn btn-sm btn-action-delete border-0" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-grid">
+                                <a href="{% url 'medicine_detail' med.pk %}"
+                                    class="btn custom-bg-primary shadow-sm rounded-pill px-4 py-2 fw-bold d-flex align-items-center justify-content-center">
+                                    View Details <i class="bi bi-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 py-5 text-center">
+                <div class="mb-3"><i class="bi bi-search" style="font-size: 3rem; color: #dee2e6;"></i></div>
+                <h5 class="text-muted">No medicines found matching your criteria.</h5>
+                <p class="text-muted small">Try adjusting your filters or search terms.</p>
+                <a href="{% url 'home' %}" class="btn btn-primary rounded-pill px-4">Clear All Filters</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+        <nav aria-label="Medicine list pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1&{% for key,val in request.GET.items %}{% if key != 'page' %}{{ key }}={{ val }}&{% endif %}{% endfor %}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{% for key,val in request.GET.items %}{% if key != 'page' %}{{ key }}={{ val }}&{% endif %}{% endfor %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                <li class="page-item active"><span class="page-link">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&{% for key,val in request.GET.items %}{% if key != 'page' %}{{ key }}={{ val }}&{% endif %}{% endfor %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&{% for key,val in request.GET.items %}{% if key != 'page' %}{{ key }}={{ val }}&{% endif %}{% endfor %}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
     </div>
-    {% empty %}
-    <p class="text-center text-muted">No medicines found.</p>
-    {% endfor %}
 </div>
-
-{% if is_paginated %}
-<nav aria-label="Medicine list pagination" class="mt-5">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" aria-label="First">
-                <span aria-hidden="true">&laquo;&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        {% endif %}
-
-        <li class="page-item active"><span class="page-link">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
-
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" aria-label="Last">
-                <span aria-hidden="true">&raquo;&raquo;</span>
-            </a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
-{% endif %}
 {% endif %}
 {% endblock %}
