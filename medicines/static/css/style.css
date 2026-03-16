@@ -931,8 +931,19 @@ input[type="email"]:focus {
     z-index: 2;
 }
 
-.input-icon-wrap input {
+.input-icon-wrap input,
+.input-icon-wrap textarea {
     padding-left: 2.6rem !important;
+}
+
+.input-icon-wrap textarea {
+    padding-top: 0.75rem !important;
+}
+
+/* Align icon to top for textareas */
+.input-icon-wrap:has(textarea) .input-icon {
+    top: 1.1rem;
+    transform: none;
 }
 
 /* Submit button */
