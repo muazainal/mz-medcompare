@@ -223,10 +223,10 @@
                             <input class="form-check-input" type="radio" name="category" id="cat-all" value="" {% if not request.GET.category %}checked{% endif %} onchange="this.form.submit()">
                             <label class="form-check-label small" for="cat-all">All Categories</label>
                         </div>
-                        {% for cat in categories %}
+                        {% for item in categories %}
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="category" id="cat-{{ forloop.counter }}" value="{{ cat }}" {% if request.GET.category == cat %}checked{% endif %} onchange="this.form.submit()">
-                            <label class="form-check-label small" for="cat-{{ forloop.counter }}">{{ cat }}</label>
+                            <input class="form-check-input" type="radio" name="category" id="cat-{{ forloop.counter }}" value="{{ item.category }}" {% if request.GET.category == item.category %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label small" for="cat-{{ forloop.counter }}">{{ item.category }} <span class="text-muted">({{ item.count }})</span></label>
                         </div>
                         {% endfor %}
                     </div>
@@ -238,7 +238,7 @@
                     <select name="manufacturer" class="form-select form-select-sm" onchange="this.form.submit()">
                         <option value="">All Manufacturers</option>
                         {% for m in manufacturers %}
-                        <option value="{{ m.name }}" {% if request.GET.manufacturer == m.name %}selected{% endif %}>{{ m.name }}</option>
+                        <option value="{{ m.name }}" {% if request.GET.manufacturer == m.name %}selected{% endif %}>{{ m.name }} ({{ m.count }})</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -248,8 +248,8 @@
                     <label class="form-label text-uppercase small fw-bold">Formula</label>
                     <select name="formula" class="form-select form-select-sm" onchange="this.form.submit()">
                         <option value="">All Formulas</option>
-                        {% for f in formulas %}
-                        <option value="{{ f }}" {% if request.GET.formula == f %}selected{% endif %}>{{ f }}</option>
+                        {% for item in formulas %}
+                        <option value="{{ item.formula }}" {% if request.GET.formula == item.formula %}selected{% endif %}>{{ item.formula }} ({{ item.count }})</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -259,8 +259,8 @@
                     <label class="form-label text-uppercase small fw-bold">Dosage</label>
                     <select name="dosage" class="form-select form-select-sm" onchange="this.form.submit()">
                         <option value="">All Dosages</option>
-                        {% for d in dosages %}
-                        <option value="{{ d }}" {% if request.GET.dosage == d %}selected{% endif %}>{{ d }}</option>
+                        {% for item in dosages %}
+                        <option value="{{ item.dosage }}" {% if request.GET.dosage == item.dosage %}selected{% endif %}>{{ item.dosage }} ({{ item.count }})</option>
                         {% endfor %}
                     </select>
                 </div>
