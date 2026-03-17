@@ -367,7 +367,13 @@
                             <strong>Dosage:</strong> {{ med.dosage }}
                         </p>
                         <p class="card-text small mb-1">
-                            <strong>Manufacturer:</strong> {{ med.manufacturer.name }}
+                            <strong>Manufacturer:</strong> 
+                            <span class="{% if med.manufacturer.is_verified %}text-success fw-bold{% endif %}">
+                                {{ med.manufacturer.name }}
+                                {% if med.manufacturer.is_verified %}
+                                <i class="bi bi-patch-check-fill ms-1" title="Verified Manufacturer"></i>
+                                {% endif %}
+                            </span>
                         </p>
                         
                         <div class="mt-auto pt-3 border-top">

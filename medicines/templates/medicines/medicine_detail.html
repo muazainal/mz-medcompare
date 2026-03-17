@@ -57,7 +57,15 @@
 
                 <div class="mb-4">
                     <label class="text-muted small fw-bold text-uppercase">Manufacturer</label>
-                    <p class="fs-5">{{ medicine.manufacturer.name }} <span class="text-muted small">(@{{ medicine.manufacturer.user.username|default:"System Admin" }})</span></p>
+                    <p class="fs-5 d-flex align-items-center gap-2">
+                        {{ medicine.manufacturer.name }}
+                        {% if medicine.manufacturer.is_verified %}
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill small py-1 px-2" style="font-size: 0.75rem;">
+                            <i class="bi bi-patch-check-fill me-1"></i>Verified
+                        </span>
+                        {% endif %}
+                        <span class="text-muted small">(@{{ medicine.manufacturer.user.username|default:"System Admin" }})</span>
+                    </p>
                 </div>
 
                 <div class="mb-4">

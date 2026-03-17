@@ -2,7 +2,13 @@ from django.contrib import admin
 from .models import Manufacturer, Formula, Medicine, LabReport, Order
 
 # Register your models here.
-admin.site.register(Manufacturer)
+@admin.register(Manufacturer)
+class ManufacturerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'user', 'is_verified')
+    list_editable = ('is_verified',)
+    list_filter = ('is_verified',)
+    search_fields = ('name', 'user__username')
+
 admin.site.register(Formula)
 
 @admin.register(Medicine)
