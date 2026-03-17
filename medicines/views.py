@@ -153,11 +153,16 @@ def signup(request):
         form = CustomSignupForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-# MANUFACTURER DECORATOR
+# MANUFACTURER DECORATOR (Checks if user is a verified manufacturer or superuser)
 def manufacturer_required(view_func):
     def check_manufacturer(user):
-        return user.groups.filter(name='Manufacturers').exists() or user.is_superuser
-    return user_passes_test(check_manufacturer)(view_func)
+        if user.is_superuser:
+            return True
+        try:
+            return user.groups.filter(name='Manufacturers').exists() and user.manufacturer_profile.is_verified
+        except Manufacturer.DoesNotExist:
+            return False
+    return user_passes_test(check_manufacturer, login_url='home')(view_func)
 
 # SUBMIT MEDICINE
 @login_required
@@ -165,6 +170,9 @@ def manufacturer_required(view_func):
 def submit_medicine(request):
     try:
         manufacturer = request.user.manufacturer_profile
+        if not manufacturer.is_verified and not request.user.is_superuser:
+            messages.warning(request, "Your manufacturer account is pending admin approval. You will be able to submit medicines once verified.")
+            return redirect('home')
     except Manufacturer.DoesNotExist:
         messages.error(request, "Manufacturer profile not found.")
         return redirect('home')
