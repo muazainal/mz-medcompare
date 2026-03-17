@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -91,10 +91,13 @@ def home(request):
     else:
         base_meds = Medicine.objects.filter(is_paid=True)
 
-    manufacturers = Manufacturer.objects.filter(medicines__in=base_meds).distinct().order_by('name')
-    formulas = base_meds.values_list('formula', flat=True).distinct().exclude(formula__isnull=True).exclude(formula='').order_by('formula')
-    dosages = base_meds.values_list('dosage', flat=True).distinct().exclude(dosage__isnull=True).exclude(dosage='').order_by('dosage')
-    categories = base_meds.values_list('category', flat=True).distinct().exclude(category__isnull=True).exclude(category='').order_by('category')
+    manufacturers = Manufacturer.objects.filter(medicines__in=base_meds).annotate(
+        count=Count('medicines', filter=Q(medicines__in=base_meds))
+    ).distinct().order_by('name')
+    
+    formulas = base_meds.values('formula').annotate(count=Count('id')).exclude(formula__isnull=True).exclude(formula='').order_by('formula')
+    dosages = base_meds.values('dosage').annotate(count=Count('id')).exclude(dosage__isnull=True).exclude(dosage='').order_by('dosage')
+    categories = base_meds.values('category').annotate(count=Count('id')).exclude(category__isnull=True).exclude(category='').order_by('category')
 
     # --- PAGINATION ---
     from django.core.paginator import Paginator
