@@ -852,6 +852,17 @@ input[type="email"]:focus {
     object-fit: cover;
 }
 
+.auth-hero-img-right {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 1.25rem auto;
+    object-fit: cover;
+    box-shadow: 0 8px 24px rgba(10, 22, 40, 0.25);
+    border: 3px solid var(--accent);
+}
+
 .auth-left-content h2 {
     font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 800;
