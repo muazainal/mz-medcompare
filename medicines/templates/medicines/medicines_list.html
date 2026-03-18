@@ -50,6 +50,16 @@
             </div>
             <div class="col-lg-5 offset-lg-1 d-none d-lg-block">
                 <div class="hero-visual">
+                    {% load static %}
+                    <img
+                        src="{% static 'images/hero_medicine.webp' %}"
+                        alt="MedCompare — Premium pharmaceutical medicine bottle and capsules"
+                        class="hero-product-img"
+                        loading="lazy"
+                        decoding="async"
+                        width="540"
+                        height="540"
+                    >
                     <div class="hero-card-float">
                         <div class="card-label">Today's Best Deal</div>
                         <div class="card-value">RM 4.20 saved</div>
