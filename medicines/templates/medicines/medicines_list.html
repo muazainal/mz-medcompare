@@ -1,4 +1,5 @@
 {% extends 'medicines/base.html' %}
+{% load static %}
 
 {% block title %}MedCompare — Compare Medicines, Find the Best Prices{% endblock %}
 
@@ -50,12 +51,11 @@
             </div>
             <div class="col-lg-5 offset-lg-1 d-none d-lg-block">
                 <div class="hero-visual">
-                    {% load static %}
                     <img
                         src="{% static 'images/hero_medicine.webp' %}"
                         alt="MedCompare — Premium pharmaceutical medicine bottle and capsules"
                         class="hero-product-img"
-                        loading="lazy"
+                        loading="eager"
                         decoding="async"
                         width="540"
                         height="540"
