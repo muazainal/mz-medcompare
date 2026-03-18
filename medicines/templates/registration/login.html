@@ -1,4 +1,5 @@
 {% extends 'medicines/base.html' %}
+{% load static %}
 
 {% block title %}Login | MedCompare{% endblock %}
 
@@ -20,6 +21,13 @@
         <div class="auth-panel-left">
             <a href="{% url 'home' %}" class="brand">Med<span>Compare</span></a>
             <div class="auth-left-content">
+                <img
+                    src="{% static 'images/hero_medicine.webp' %}"
+                    alt="MedCompare premium medicines"
+                    class="auth-hero-img"
+                    loading="eager"
+                    decoding="async"
+                >
                 <h2>Welcome back.<br>Sign in to your account.</h2>
                 <p>
                     Access your order history, compare medicines, and manage your profile —
