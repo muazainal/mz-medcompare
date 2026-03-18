@@ -852,16 +852,31 @@ input[type="email"]:focus {
     object-fit: cover;
 }
 
-.auth-hero-img-right {
+.auth-banner-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 280px;
-    height: 180px;
-    border-radius: var(--radius);
-    display: block;
-    margin: 0 auto 1.5rem auto;
+    height: 300px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.auth-banner-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    box-shadow: 0 12px 32px rgba(10, 22, 40, 0.25);
-    border: 2px solid rgba(20, 197, 160, 0.3);
+    opacity: 0.9;
+    filter: saturate(1.2) brightness(1.05);
+}
+
+.banner-fader {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 90%);
 }
 
 .auth-left-content h2 {
@@ -915,12 +930,14 @@ input[type="email"]:focus {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding: 3rem 2rem;
     background: rgba(255, 255, 255, 0.45);
     border-left: 1px solid rgba(255, 255, 255, 0.4);
     overflow-y: auto;
+    position: relative;
+    padding-top: 180px;
 }
 
 .auth-form-box .form-control {
@@ -1467,8 +1484,16 @@ p a:not(.btn),
 }
 
 [data-theme="dark"] .auth-panel-right {
-    background: rgba(10, 22, 40, 0.55);
-    border-left-color: rgba(255, 255, 255, 0.1);
+    background: rgba(10, 22, 40, 0.4);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .banner-fader {
+    background: linear-gradient(to bottom, transparent, rgba(10, 22, 40, 0.8), rgba(10, 22, 40, 1) 90%);
+}
+
+[data-theme="dark"] .auth-banner-img {
+    opacity: 0.6;
 }
 
 [data-theme="dark"] .auth-form-box .form-control {
