@@ -1224,6 +1224,22 @@ input[type="email"]:focus {
     border-color: rgba(255, 193, 7, 0.4);
 }
 
+/* Category Badge */
+.category-badge {
+    background: #f0f4f9;
+    color: var(--primary) !important;
+    border: 1px solid rgba(10, 22, 40, 0.08);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.2px;
+}
+
+[data-theme="dark"] .category-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-dark) !important;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
 /* =============================================
    FOOTER
    ============================================= */
