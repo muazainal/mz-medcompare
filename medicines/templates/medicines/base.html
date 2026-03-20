@@ -57,9 +57,11 @@
                     {% endif %}
 
                     {% if user.is_authenticated %}
+                    {% if user.manufacturer_profile or user.is_superuser %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'submit_medicine' %}">Submit Medicine</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="{% url 'my_orders' %}">
                             <i class="bi bi-cart3 me-1"></i>My Orders
